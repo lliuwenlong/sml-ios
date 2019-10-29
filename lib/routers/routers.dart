@@ -13,7 +13,7 @@ import '../pages/Base/BaseDetails.dart';
 // import '../pages/Trip/Trip.dart';
 // import '../pages/Restaurant/RestaurantDetails.dart';
 // import '../pages/Restaurant/ReleaseEvaluate.dart';
-// import '../pages/My/Product.dart';
+import '../pages/My/Product.dart';
 // import '../pages/My/PurchaseRecord.dart';
 // import '../pages/My/Order.dart';
 // import '../pages/My/Setting.dart';//设置
@@ -45,7 +45,7 @@ import '../pages/Base/BaseDetails.dart';
 // import '../pages/FriendDynamics/FriendInformation.dart';
 // import '../pages/My/AiCustomerService.dart';//AI客服
 // import '../pages/My/FollowOrFans.dart';//关注 粉丝
-// import '../pages/My/ProductDetail.dart';//神木详情
+import '../pages/My/ProductDetail.dart';//神木详情
 // import '../pages/My/GrowthRecord.dart';//成长记录
 // import '../pages/My/OutputRecord.dart';//产值记录
 // import '../pages/My/TransferRecord.dart';//转让记录
@@ -83,7 +83,7 @@ final Map routes = {
     '/baseDetails': (context,{arguments}) => BaseDetails(arguments:arguments),
     // '/trip': (context) => Trip(),
     // '/releaseEvaluate': (context, {arguments}) => ReleaseEvaluate(arguments: arguments),
-    // '/product': (context,{arguments}) => Product(arguments:arguments),
+    '/product': (context,{arguments}) => Product(arguments:arguments),
     // '/purchaseRecord':  (context) => PurchaseRecord(),
     // '/order': (context) => Order(),
     // '/setting': (context) => Setting(),
@@ -115,7 +115,7 @@ final Map routes = {
     // '/friendInformation': (context, {arguments}) => FriendInformation(arguments: arguments),
     // '/aiCustomerService': (context) => AiCustomerService(),
     // '/followOrFans': (context, {arguments}) => FollowOrFans(arguments: arguments),
-    // '/productDetail': (context, {arguments}) => ProductDetail(arguments: arguments),
+    '/productDetail': (context, {arguments}) => ProductDetail(arguments: arguments),
     // '/growthRecord': (context, {arguments}) => GrowthRecord(arguments: arguments),
     // '/outputRecord': (context, {arguments}) => OutputRecord(arguments: arguments),
     // '/transferRecord': (context, {arguments}) => TransferRecord(arguments: arguments),
