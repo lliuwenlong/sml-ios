@@ -164,6 +164,7 @@ class _MyPageState extends State<MyPage> {
     Widget build(BuildContext context) {
         ScreenAdaper.init(context);
         return Scaffold(
+           resizeToAvoidBottomPadding: true,
             body: SafeArea(
                 top: false,
                 child: Column(
