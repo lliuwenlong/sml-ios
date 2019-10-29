@@ -34,6 +34,7 @@ dependencies:
   flutter_inappbrowser: ^1.2.1
   flutter_swiper : ^1.1.6
   keyboard_visibility: ^0.5.6
+  city_pickers: ^0.1.25
   flutter_localizations:
     sdk: flutter
   flutter_luban: ^0.1.7

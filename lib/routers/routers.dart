@@ -26,24 +26,24 @@ import '../pages/News/NewsDetail.dart'; //消息详情
 import '../pages/News/ActivityMessage.dart';//活动公告
 import '../pages/News/OtherMessage.dart';//其他消息
 // import '../pages/My/Authentication.dart';
-// import '../pages/My/Invoice.dart';
+import '../pages/My/Invoice.dart';
 // import '../pages/My/ContactCustomerService.dart';
-// import '../pages/My/InvoiceInformation.dart';
+import '../pages/My/InvoiceInformation.dart';
 // import '../pages/My/RemarksInformation.dart';
-// import '../pages/My/InvoiceHarvestAddress.dart';
-// import '../pages/My/InvoiceDetails.dart';
+import '../pages/My/InvoiceHarvestAddress.dart';
+import '../pages/My/InvoiceDetails.dart';
 import '../pages/My/UserInfo.dart';//个人信息
 // import '../pages/My/ChangeNickName.dart';//修改昵称
 import '../pages/My/MyWallet.dart';// 我的钱包
 import '../pages/My/CashOut.dart';//提现
-// import '../pages/My/InvoiceHistory.dart';
-// import '../pages/My/InvoiceHistoryDetails.dart';
-// import '../pages/My/InvoiceSee.dart';
+import '../pages/My/InvoiceHistory.dart';
+import '../pages/My/InvoiceHistoryDetails.dart';
+import '../pages/My/InvoiceSee.dart';
 import '../pages/FriendDynamics/Comment.dart';
 import '../pages/FriendDynamics/Report.dart';
 import '../pages/FriendDynamics/Release.dart';
 import '../pages/FriendDynamics/FriendInformation.dart';
-// import '../pages/My/AiCustomerService.dart';//AI客服
+// import '../pages/My/AiCustomerService.dart';//AI客服/
 import '../pages/My/FollowOrFans.dart';//关注 粉丝
 import '../pages/My/ProductDetail.dart';//神木详情
 import '../pages/My/GrowthRecord.dart';//成长记录
@@ -96,19 +96,19 @@ final Map routes = {
     '/activityMessage': (context,{arguments}) => ActivityMessage(arguments:arguments),
     '/otherMessage': (context,{arguments}) => OtherMessage(arguments:arguments),
     // '/authentication': (context) => Authentication(),
-    // '/invoice': (context) => Invoice(),
+    '/invoice': (context) => Invoice(),
     // '/contactCustomerService': (context) => ContactCustomerService(),
-    // '/invoiceInformation': (context) => InvoiceInformation(),
+    '/invoiceInformation': (context) => InvoiceInformation(),
     // '/remarksInformation': (context,{arguments}) => RemarksInformation(arguments:arguments),
-    // '/invoiceHarvestAddress': (context,{arguments}) => InvoiceHarvestAddress(arguments:arguments),
-    // '/invoiceDetails': (context,{arguments}) => InvoiceDetails(arguments:arguments),
+    '/invoiceHarvestAddress': (context,{arguments}) => InvoiceHarvestAddress(arguments:arguments),
+    '/invoiceDetails': (context,{arguments}) => InvoiceDetails(arguments:arguments),
     '/userInfo': (context,{arguments}) => UserInfo(arguments:arguments),
     // '/changeNickName': (context,{arguments}) => ChangeNickName(arguments:arguments),
     '/myWallet': (context) => MyWallet(),
     '/cashOut': (context) => CashOut(),
-    // '/invoiceHistory': (context) => InvoiceHistory(),
-    // '/invoiceHistoryDetails': (context,{arguments}) => InvoiceHistoryDetails(arguments:arguments),
-    // '/invoiceSee': (context,{arguments}) => InvoiceSee(arguments:arguments),
+    '/invoiceHistory': (context) => InvoiceHistory(),
+    '/invoiceHistoryDetails': (context,{arguments}) => InvoiceHistoryDetails(arguments:arguments),
+    '/invoiceSee': (context,{arguments}) => InvoiceSee(arguments:arguments),
     '/friendDynamicsComment': (context, {arguments}) => FriendDynamicsComment(arguments: arguments),
     '/friendDynamicsReport': (context, {arguments}) => FriendDynamicsReport(arguments: arguments),
     '/friendDynamicsRelease': (context) => FriendDynamicsRelease(),
