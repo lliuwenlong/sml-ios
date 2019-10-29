@@ -3,20 +3,17 @@ import '../pages/tabs/TabBars.dart';
 import '../pages/Base/Base.dart';
 import '../pages/Coupon/Coupon.dart';
 import '../pages/Restaurant/Restaurant.dart';
-// import '../pages/Entertainment/Entertainment.dart';
+import '../pages/Entertainment/Entertainment.dart';
 import '../pages/Accommodation/Accommodation.dart';
 import '../pages/Login/Login.dart';
 import '../pages/Login/Register.dart';
 import '../pages/Login/RetrieveAccount.dart';
 import '../pages/Base/BaseList.dart';
 import '../pages/Base/BaseDetails.dart';
-// import '../pages/Trip/Trip.dart';
-// import '../pages/Restaurant/RestaurantDetails.dart';
-// import '../pages/Restaurant/ReleaseEvaluate.dart';
-import '../pages/My/Product.dart';
+import '../pages/Trip/Trip.dart';
 import '../pages/Restaurant/RestaurantDetails.dart';
 import '../pages/Restaurant/ReleaseEvaluate.dart';
-// import '../pages/My/Product.dart';
+import '../pages/My/Product.dart';
 // import '../pages/My/PurchaseRecord.dart';
 // import '../pages/My/Order.dart';
 // import '../pages/My/Setting.dart';//设置
@@ -24,10 +21,10 @@ import '../pages/Restaurant/ReleaseEvaluate.dart';
 // import '../pages/My/FeedBack.dart';//意见反馈
 // import '../pages/My/AboutUs.dart';//关于我们
 // import '../pages/My/Introduction.dart';//公司简介
-// import '../pages/News/SystemMessage.dart';//系统消息
-// import '../pages/News/NewsDetail.dart'; //消息详情
-// import '../pages/News/ActivityMessage.dart';//活动公告
-// import '../pages/News/OtherMessage.dart';//其他消息
+import '../pages/News/SystemMessage.dart';//系统消息
+import '../pages/News/NewsDetail.dart'; //消息详情
+import '../pages/News/ActivityMessage.dart';//活动公告
+import '../pages/News/OtherMessage.dart';//其他消息
 // import '../pages/My/Authentication.dart';
 // import '../pages/My/Invoice.dart';
 // import '../pages/My/ContactCustomerService.dart';
@@ -42,10 +39,10 @@ import '../pages/Restaurant/ReleaseEvaluate.dart';
 // import '../pages/My/InvoiceHistory.dart';
 // import '../pages/My/InvoiceHistoryDetails.dart';
 // import '../pages/My/InvoiceSee.dart';
-// import '../pages/FriendDynamics/Comment.dart';
-// import '../pages/FriendDynamics/Report.dart';
-// import '../pages/FriendDynamics/Release.dart';
-// import '../pages/FriendDynamics/FriendInformation.dart';
+import '../pages/FriendDynamics/Comment.dart';
+import '../pages/FriendDynamics/Report.dart';
+import '../pages/FriendDynamics/Release.dart';
+import '../pages/FriendDynamics/FriendInformation.dart';
 // import '../pages/My/AiCustomerService.dart';//AI客服
 // import '../pages/My/FollowOrFans.dart';//关注 粉丝
 import '../pages/My/ProductDetail.dart';//神木详情
@@ -77,18 +74,16 @@ final Map routes = {
     '/coupon': (context) => Coupon(),
     '/restaurant': (context, {arguments}) => Restaurant(arguments: arguments),
     '/restaurantDetails': (context, {arguments}) => RestaurantDetails(),
-    // '/entertainment': (context) => Entertainment(),
+    '/entertainment': (context) => Entertainment(),
     '/accommodation':  (context) => Accommodation(),
     '/login': (context) => LoginPage(),
     '/register': (context) => RegisterPage(),
     '/retrieveAccount': (context) => RetrieveAccount(),
     '/baseList': (context, {arguments}) => BaseList(arguments: arguments),
     '/baseDetails': (context,{arguments}) => BaseDetails(arguments:arguments),
-    // '/trip': (context) => Trip(),
-    // '/releaseEvaluate': (context, {arguments}) => ReleaseEvaluate(arguments: arguments),
-    '/product': (context,{arguments}) => Product(arguments:arguments),
+    '/trip': (context) => Trip(),
     '/releaseEvaluate': (context, {arguments}) => ReleaseEvaluate(arguments: arguments),
-    // '/product': (context,{arguments}) => Product(arguments:arguments),
+    '/product': (context,{arguments}) => Product(arguments:arguments),
     // '/purchaseRecord':  (context) => PurchaseRecord(),
     // '/order': (context) => Order(),
     // '/setting': (context) => Setting(),
@@ -96,10 +91,10 @@ final Map routes = {
     // '/feedBack': (context) => FeedBack(),
     // '/about': (context) => AboutUs(),
     // '/introduction': (context) => Introduction(),
-    // '/systemMessage': (context,{arguments}) => SystemMessage(arguments:arguments),
-    // '/newsDetail': (context,{arguments}) => NewsDetail(arguments:arguments),
-    // '/activityMessage': (context,{arguments}) => ActivityMessage(arguments:arguments),
-    // '/otherMessage': (context,{arguments}) => OtherMessage(arguments:arguments),
+    '/systemMessage': (context,{arguments}) => SystemMessage(arguments:arguments),
+    '/newsDetail': (context,{arguments}) => NewsDetail(arguments:arguments),
+    '/activityMessage': (context,{arguments}) => ActivityMessage(arguments:arguments),
+    '/otherMessage': (context,{arguments}) => OtherMessage(arguments:arguments),
     // '/authentication': (context) => Authentication(),
     // '/invoice': (context) => Invoice(),
     // '/contactCustomerService': (context) => ContactCustomerService(),
@@ -114,10 +109,10 @@ final Map routes = {
     // '/invoiceHistory': (context) => InvoiceHistory(),
     // '/invoiceHistoryDetails': (context,{arguments}) => InvoiceHistoryDetails(arguments:arguments),
     // '/invoiceSee': (context,{arguments}) => InvoiceSee(arguments:arguments),
-    // '/friendDynamicsComment': (context, {arguments}) => FriendDynamicsComment(arguments: arguments),
-    // '/friendDynamicsReport': (context, {arguments}) => FriendDynamicsReport(arguments: arguments),
-    // '/friendDynamicsRelease': (context) => FriendDynamicsRelease(),
-    // '/friendInformation': (context, {arguments}) => FriendInformation(arguments: arguments),
+    '/friendDynamicsComment': (context, {arguments}) => FriendDynamicsComment(arguments: arguments),
+    '/friendDynamicsReport': (context, {arguments}) => FriendDynamicsReport(arguments: arguments),
+    '/friendDynamicsRelease': (context) => FriendDynamicsRelease(),
+    '/friendInformation': (context, {arguments}) => FriendInformation(arguments: arguments),
     // '/aiCustomerService': (context) => AiCustomerService(),
     // '/followOrFans': (context, {arguments}) => FollowOrFans(arguments: arguments),
     '/productDetail': (context, {arguments}) => ProductDetail(arguments: arguments),
