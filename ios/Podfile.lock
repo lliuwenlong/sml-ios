@@ -40,7 +40,7 @@ DEPENDENCIES:
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/cocoapods/specs.git:
     - BSGridCollectionViewLayout
     - BSImagePicker
     - BSImageView
@@ -86,4 +86,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 2c26e2bafa90f053205a9e99ab1fdce88251e293
 
-COCOAPODS: 1.8.0
+COCOAPODS: 1.7.5

@@ -20,20 +20,20 @@ import '../pages/My/Setting.dart';//设置
 import '../pages/My/ChangePwd.dart';//修改密码
 import '../pages/My/FeedBack.dart';//意见反馈
 import '../pages/My/AboutUs.dart';//关于我们
-// import '../pages/My/Introduction.dart';//公司简介
+import '../pages/My/Introduction.dart';//公司简介
 import '../pages/News/SystemMessage.dart';//系统消息
 import '../pages/News/NewsDetail.dart'; //消息详情
 import '../pages/News/ActivityMessage.dart';//活动公告
 import '../pages/News/OtherMessage.dart';//其他消息
-// import '../pages/My/Authentication.dart';
+import '../pages/My/Authentication.dart';
 import '../pages/My/Invoice.dart';
-// import '../pages/My/ContactCustomerService.dart';
+import '../pages/My/ContactCustomerService.dart';
 import '../pages/My/InvoiceInformation.dart';
-// import '../pages/My/RemarksInformation.dart';
+import '../pages/My/RemarksInformation.dart';
 import '../pages/My/InvoiceHarvestAddress.dart';
 import '../pages/My/InvoiceDetails.dart';
 import '../pages/My/UserInfo.dart';//个人信息
-// import '../pages/My/ChangeNickName.dart';//修改昵称
+import '../pages/My/ChangeNickName.dart';//修改昵称
 import '../pages/My/MyWallet.dart';// 我的钱包
 import '../pages/My/CashOut.dart';//提现
 import '../pages/My/InvoiceHistory.dart';
@@ -43,7 +43,7 @@ import '../pages/FriendDynamics/Comment.dart';
 import '../pages/FriendDynamics/Report.dart';
 import '../pages/FriendDynamics/Release.dart';
 import '../pages/FriendDynamics/FriendInformation.dart';
-// import '../pages/My/AiCustomerService.dart';//AI客服/
+import '../pages/My/AiCustomerService.dart';//AI客服
 import '../pages/My/FollowOrFans.dart';//关注 粉丝
 import '../pages/My/ProductDetail.dart';//神木详情
 import '../pages/My/GrowthRecord.dart';//成长记录
@@ -52,8 +52,8 @@ import '../pages/My/TransferRecord.dart';//转让记录
 import '../pages/My/Transfer.dart'; //转让
 import '../pages/My/ValueAddedServices.dart';//增值服务
 import '../pages/My/ValueDetail.dart';//增值服务 详情
-// import '../pages/My/order/CancellationOrder.dart'; // 我的订单
-// import '../pages/My/order/Acknowledgement.dart'; // 订单确认
+import '../pages/My/order/CancellationOrder.dart'; // 我的订单
+import '../pages/My/order/Acknowledgement.dart'; // 订单确认
 // import '../pages/My/myDynamics/MyDynamics.dart'; // 我的
 import '../pages/tabs/Shop.dart'; // 商城
 import '../pages/Shop/ShenmuDetails.dart'; // 商品详情页
@@ -61,7 +61,7 @@ import '../pages/My/MyDynamics.dart';//我的动态
 import '../pages/Restaurant/Payment.dart';//餐饮 付款
 import '../pages/Accommodation/AccommodationDetal.dart'; // 住宿页面
 import '../pages/Accommodation/PlaceOrder.dart'; // 订单确认
-// import '../pages/My/MyCode.dart';//我的二维码
+import '../pages/My/MyCode.dart';//我的二维码
 import '../pages/Coupon/ChooseCoupon.dart';//选择优惠券
 import '../pages/Restaurant/BusinessQualification.dart';//商家资质
 import '../pages/Restaurant/MerchantAlbum.dart';
@@ -90,20 +90,20 @@ final Map routes = {
     '/changePwd': (context) => ChangePwd(),
     '/feedBack': (context) => FeedBack(),
     '/about': (context) => AboutUs(),
-    // '/introduction': (context) => Introduction(),
+    '/introduction': (context) => Introduction(),
     '/systemMessage': (context,{arguments}) => SystemMessage(arguments:arguments),
     '/newsDetail': (context,{arguments}) => NewsDetail(arguments:arguments),
     '/activityMessage': (context,{arguments}) => ActivityMessage(arguments:arguments),
     '/otherMessage': (context,{arguments}) => OtherMessage(arguments:arguments),
-    // '/authentication': (context) => Authentication(),
+    '/authentication': (context) => Authentication(),
     '/invoice': (context) => Invoice(),
-    // '/contactCustomerService': (context) => ContactCustomerService(),
+    '/contactCustomerService': (context) => ContactCustomerService(),
     '/invoiceInformation': (context) => InvoiceInformation(),
-    // '/remarksInformation': (context,{arguments}) => RemarksInformation(arguments:arguments),
+    '/remarksInformation': (context,{arguments}) => RemarksInformation(arguments:arguments),
     '/invoiceHarvestAddress': (context,{arguments}) => InvoiceHarvestAddress(arguments:arguments),
     '/invoiceDetails': (context,{arguments}) => InvoiceDetails(arguments:arguments),
     '/userInfo': (context,{arguments}) => UserInfo(arguments:arguments),
-    // '/changeNickName': (context,{arguments}) => ChangeNickName(arguments:arguments),
+    '/changeNickName': (context,{arguments}) => ChangeNickName(arguments:arguments),
     '/myWallet': (context) => MyWallet(),
     '/cashOut': (context) => CashOut(),
     '/invoiceHistory': (context) => InvoiceHistory(),
@@ -113,7 +113,7 @@ final Map routes = {
     '/friendDynamicsReport': (context, {arguments}) => FriendDynamicsReport(arguments: arguments),
     '/friendDynamicsRelease': (context) => FriendDynamicsRelease(),
     '/friendInformation': (context, {arguments}) => FriendInformation(arguments: arguments),
-    // '/aiCustomerService': (context) => AiCustomerService(),
+    '/aiCustomerService': (context) => AiCustomerService(),
     '/followOrFans': (context, {arguments}) => FollowOrFans(arguments: arguments),
     '/productDetail': (context, {arguments}) => ProductDetail(arguments: arguments),
     '/growthRecord': (context, {arguments}) => GrowthRecord(arguments: arguments),
@@ -122,15 +122,15 @@ final Map routes = {
     '/transfer': (context,{arguments}) => Transfer(arguments: arguments),
     '/valueAddedServices': (context,{arguments}) => ValueAddedServices(arguments:arguments),
     '/valueDetail': (context, {arguments}) => ValueDetail(arguments: arguments),
-    // '/cancellationOrder': (context, {arguments}) => CancellationOrder(arguments: arguments),
-    // '/acknowledgement': (context, {arguments}) => Acknowledgement(arguments: arguments),
+    '/cancellationOrder': (context, {arguments}) => CancellationOrder(arguments: arguments),
+    '/acknowledgement': (context, {arguments}) => Acknowledgement(arguments: arguments),
     '/shenmuDetails': (context, {arguments}) => ShenmuDetails(arguments: arguments),
     '/valueDetail': (context,{arguments}) => ValueDetail(arguments:arguments),
     '/myDynamics': (context) => MyDynamics(),
     '/payment': (context,{arguments}) => Payment(arguments:arguments),
     '/accommodationDetal': (context) => AccommodationDetal(),
     '/placeOrder': (context, {arguments}) => PlaceOrder(arguments: arguments),
-    // '/myCode': (context,{arguments}) => MyCode(arguments:arguments),
+    '/myCode': (context,{arguments}) => MyCode(arguments:arguments),
     '/chooseCoupon': (context,{arguments}) => ChooseCoupon(arguments:arguments),
     '/businessQualification':(context,{arguments}) => BusinessQualification(arguments:arguments),
     '/merchantAlbum': (context,{arguments}) => MerchantAlbum(arguments:arguments)

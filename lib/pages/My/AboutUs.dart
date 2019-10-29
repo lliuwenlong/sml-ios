@@ -56,13 +56,20 @@ Widget _listItem (String name,String tips,{isBorder=true,int color=0XFF666666}){
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Text(
+                Container(
+                  // width: double.infinity,
+                  width: ScreenAdaper.width(550),
+                  child: Text(
                   tips,
-              style:TextStyle(
-                color:Color(color),
-                fontSize: ScreenAdaper.fontSize(24)
-              )
+                  overflow: TextOverflow.ellipsis,
+                  style:TextStyle(
+                    color:Color(color),
+                    fontSize: ScreenAdaper.fontSize(24),
+                  ),
+                  textAlign: TextAlign.end,
+                ),
                 )
+
               ],
             ),
           )
