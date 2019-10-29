@@ -4,6 +4,8 @@ PODS:
     - BSGridCollectionViewLayout (= 1.2.5)
     - BSImageView (= 1.0.3)
   - BSImageView (1.0.3)
+  - city_pickers (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
   - flutter_inappbrowser (0.0.1):
     - Flutter
@@ -26,6 +28,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - city_pickers (from `.symlinks/plugins/city_pickers/ios`)
   - Flutter (from `.symlinks/flutter/ios`)
   - flutter_inappbrowser (from `.symlinks/plugins/flutter_inappbrowser/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
@@ -37,13 +40,15 @@ DEPENDENCIES:
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - BSGridCollectionViewLayout
     - BSImagePicker
     - BSImageView
     - Reachability
 
 EXTERNAL SOURCES:
+  city_pickers:
+    :path: ".symlinks/plugins/city_pickers/ios"
   Flutter:
     :path: ".symlinks/flutter/ios"
   flutter_inappbrowser:
@@ -67,6 +72,7 @@ SPEC CHECKSUMS:
   BSGridCollectionViewLayout: 333dcb457a5a3bdd9212607ab5756553dcfe06cb
   BSImagePicker: 07404254f2fcdaf5a2eb403c0f8c337267ce8738
   BSImageView: a149459433a2687157d034c78e059d30ac7f2544
+  city_pickers: b0370f4c35c201723b5b7fcce10ec29b59d5bc35
   Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
   flutter_inappbrowser: 93214ba3c0bc9db42e879f808d993b6d3be32379
   fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
@@ -80,4 +86,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 2c26e2bafa90f053205a9e99ab1fdce88251e293
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.0
