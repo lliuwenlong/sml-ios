@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../pages/tabs/TabBars.dart';
-// import '../pages/Base/Base.dart';
+import '../pages/Base/Base.dart';
 // import '../pages/Coupon/Coupon.dart';
 // import '../pages/Restaurant/Restaurant.dart';
 // import '../pages/Entertainment/Entertainment.dart';
@@ -8,8 +8,8 @@ import '../pages/tabs/TabBars.dart';
 import '../pages/Login/Login.dart';
 import '../pages/Login/Register.dart';
 import '../pages/Login/RetrieveAccount.dart';
-// import '../pages/Base/BaseList.dart';
-// import '../pages/Base/BaseDetails.dart';
+import '../pages/Base/BaseList.dart';
+import '../pages/Base/BaseDetails.dart';
 // import '../pages/Trip/Trip.dart';
 // import '../pages/Restaurant/RestaurantDetails.dart';
 // import '../pages/Restaurant/ReleaseEvaluate.dart';
@@ -56,7 +56,7 @@ import '../pages/Login/RetrieveAccount.dart';
 // import '../pages/My/order/Acknowledgement.dart'; // 订单确认
 // import '../pages/My/myDynamics/MyDynamics.dart'; // 我的
 // import '../pages/tabs/Shop.dart'; // 商城
-// import '../pages/Shop/ShenmuDetails.dart'; // 商品详情页
+import '../pages/Shop/ShenmuDetails.dart'; // 商品详情页
 // import '../pages/My/MyDynamics.dart';//我的动态
 // import '../pages/Restaurant/Payment.dart';//餐饮 付款
 // import '../pages/Accommodation/AccommodationDetal.dart'; // 住宿页面
@@ -69,7 +69,7 @@ import '../pages/Login/RetrieveAccount.dart';
 final Map routes = {
     '/': (context) => TabBars(),
     '/tabBars': (context) => TabBars(),
-    // '/base': (context) => Base(),
+    '/base': (context) => Base(),
     // '/shop': (context) => ShopPage(),
     // '/coupon': (context) => Coupon(),
     // '/restaurant': (context, {arguments}) => Restaurant(arguments: arguments),
@@ -79,8 +79,8 @@ final Map routes = {
     '/login': (context) => LoginPage(),
     '/register': (context) => RegisterPage(),
     '/retrieveAccount': (context) => RetrieveAccount(),
-    // '/baseList': (context, {arguments}) => BaseList(arguments: arguments),
-    // '/baseDetails': (context,{arguments}) => BaseDetails(arguments:arguments),
+    '/baseList': (context, {arguments}) => BaseList(arguments: arguments),
+    '/baseDetails': (context,{arguments}) => BaseDetails(arguments:arguments),
     // '/trip': (context) => Trip(),
     // '/releaseEvaluate': (context, {arguments}) => ReleaseEvaluate(arguments: arguments),
     // '/product': (context,{arguments}) => Product(arguments:arguments),
@@ -124,7 +124,7 @@ final Map routes = {
     // '/valueDetail': (context, {arguments}) => ValueDetail(arguments: arguments),
     // '/cancellationOrder': (context, {arguments}) => CancellationOrder(arguments: arguments),
     // '/acknowledgement': (context, {arguments}) => Acknowledgement(arguments: arguments),
-    // '/shenmuDetails': (context, {arguments}) => ShenmuDetails(arguments: arguments),
+    '/shenmuDetails': (context, {arguments}) => ShenmuDetails(arguments: arguments),
     // '/valueDetail': (context,{arguments}) => ValueDetail(arguments:arguments),
     // '/myDynamics': (context) => MyDynamics(),
     // '/payment': (context,{arguments}) => Payment(arguments:arguments),
