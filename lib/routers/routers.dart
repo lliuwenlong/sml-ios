@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../pages/tabs/TabBars.dart';
 import '../pages/Base/Base.dart';
-// import '../pages/Coupon/Coupon.dart';
-// import '../pages/Restaurant/Restaurant.dart';
+import '../pages/Coupon/Coupon.dart';
+import '../pages/Restaurant/Restaurant.dart';
 // import '../pages/Entertainment/Entertainment.dart';
-// import '../pages/Accommodation/Accommodation.dart';
+import '../pages/Accommodation/Accommodation.dart';
 import '../pages/Login/Login.dart';
 import '../pages/Login/Register.dart';
 import '../pages/Login/RetrieveAccount.dart';
@@ -14,6 +14,9 @@ import '../pages/Base/BaseDetails.dart';
 // import '../pages/Restaurant/RestaurantDetails.dart';
 // import '../pages/Restaurant/ReleaseEvaluate.dart';
 import '../pages/My/Product.dart';
+import '../pages/Restaurant/RestaurantDetails.dart';
+import '../pages/Restaurant/ReleaseEvaluate.dart';
+// import '../pages/My/Product.dart';
 // import '../pages/My/PurchaseRecord.dart';
 // import '../pages/My/Order.dart';
 // import '../pages/My/Setting.dart';//设置
@@ -55,27 +58,27 @@ import '../pages/My/ProductDetail.dart';//神木详情
 // import '../pages/My/order/CancellationOrder.dart'; // 我的订单
 // import '../pages/My/order/Acknowledgement.dart'; // 订单确认
 // import '../pages/My/myDynamics/MyDynamics.dart'; // 我的
-// import '../pages/tabs/Shop.dart'; // 商城
+import '../pages/tabs/Shop.dart'; // 商城
 import '../pages/Shop/ShenmuDetails.dart'; // 商品详情页
 // import '../pages/My/MyDynamics.dart';//我的动态
-// import '../pages/Restaurant/Payment.dart';//餐饮 付款
-// import '../pages/Accommodation/AccommodationDetal.dart'; // 住宿页面
-// import '../pages/Accommodation/PlaceOrder.dart'; // 订单确认
+import '../pages/Restaurant/Payment.dart';//餐饮 付款
+import '../pages/Accommodation/AccommodationDetal.dart'; // 住宿页面
+import '../pages/Accommodation/PlaceOrder.dart'; // 订单确认
 // import '../pages/My/MyCode.dart';//我的二维码
-// import '../pages/Coupon/ChooseCoupon.dart';//选择优惠券
-// import '../pages/Restaurant/BusinessQualification.dart';//商家资质
-// import '../pages/Restaurant/MerchantAlbum.dart';
+import '../pages/Coupon/ChooseCoupon.dart';//选择优惠券
+import '../pages/Restaurant/BusinessQualification.dart';//商家资质
+import '../pages/Restaurant/MerchantAlbum.dart';
 
 final Map routes = {
     '/': (context) => TabBars(),
     '/tabBars': (context) => TabBars(),
     '/base': (context) => Base(),
-    // '/shop': (context) => ShopPage(),
-    // '/coupon': (context) => Coupon(),
-    // '/restaurant': (context, {arguments}) => Restaurant(arguments: arguments),
-    // '/restaurantDetails': (context, {arguments}) => RestaurantDetails(),
+    '/shop': (context) => ShopPage(),
+    '/coupon': (context) => Coupon(),
+    '/restaurant': (context, {arguments}) => Restaurant(arguments: arguments),
+    '/restaurantDetails': (context, {arguments}) => RestaurantDetails(),
     // '/entertainment': (context) => Entertainment(),
-    // '/accommodation':  (context) => Accommodation(),
+    '/accommodation':  (context) => Accommodation(),
     '/login': (context) => LoginPage(),
     '/register': (context) => RegisterPage(),
     '/retrieveAccount': (context) => RetrieveAccount(),
@@ -84,6 +87,8 @@ final Map routes = {
     // '/trip': (context) => Trip(),
     // '/releaseEvaluate': (context, {arguments}) => ReleaseEvaluate(arguments: arguments),
     '/product': (context,{arguments}) => Product(arguments:arguments),
+    '/releaseEvaluate': (context, {arguments}) => ReleaseEvaluate(arguments: arguments),
+    // '/product': (context,{arguments}) => Product(arguments:arguments),
     // '/purchaseRecord':  (context) => PurchaseRecord(),
     // '/order': (context) => Order(),
     // '/setting': (context) => Setting(),
@@ -127,13 +132,13 @@ final Map routes = {
     '/shenmuDetails': (context, {arguments}) => ShenmuDetails(arguments: arguments),
     // '/valueDetail': (context,{arguments}) => ValueDetail(arguments:arguments),
     // '/myDynamics': (context) => MyDynamics(),
-    // '/payment': (context,{arguments}) => Payment(arguments:arguments),
-    // '/accommodationDetal': (context) => AccommodationDetal(),
-    // '/placeOrder': (context, {arguments}) => PlaceOrder(arguments: arguments),
+    '/payment': (context,{arguments}) => Payment(arguments:arguments),
+    '/accommodationDetal': (context) => AccommodationDetal(),
+    '/placeOrder': (context, {arguments}) => PlaceOrder(arguments: arguments),
     // '/myCode': (context,{arguments}) => MyCode(arguments:arguments),
-    // '/chooseCoupon': (context,{arguments}) => ChooseCoupon(arguments:arguments),
-    // '/businessQualification':(context,{arguments}) => BusinessQualification(arguments:arguments),
-    // '/merchantAlbum': (context,{arguments}) => MerchantAlbum(arguments:arguments)
+    '/chooseCoupon': (context,{arguments}) => ChooseCoupon(arguments:arguments),
+    '/businessQualification':(context,{arguments}) => BusinessQualification(arguments:arguments),
+    '/merchantAlbum': (context,{arguments}) => MerchantAlbum(arguments:arguments)
 };
 
 var onGenerateRoute = (RouteSettings settings) {

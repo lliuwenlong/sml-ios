@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../services/ScreenAdaper.dart';
@@ -77,50 +79,50 @@ class _ShenmuDetailsState extends State<ShenmuDetails> {
         this._selfContext = context;
         return Scaffold(
             appBar: AppBarWidget().buildAppBar('神木详情'),
+            bottomSheet: Container(
+                width: double.infinity,
+                height: ScreenAdaper.height(110) + MediaQueryData.fromWindow(window).padding.bottom,
+                padding: EdgeInsets.only(
+                    bottom: MediaQueryData.fromWindow(window).padding.bottom + ScreenAdaper.height(10),
+                    top: ScreenAdaper.height(10),
+                    left: ScreenAdaper.width(30),
+                    right: ScreenAdaper.width(30)
+                ),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                        BoxShadow(color: Colors.black12, blurRadius: 1)
+                    ]
+                ),
+                child: RaisedButton(
+                    child: Text(
+                        '购买',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: ScreenAdaper.fontSize(40)
+                        )
+                    ),
+                    disabledColor: Color(0XFF86d4ca),
+                    splashColor: Color.fromARGB(0, 0, 0, 0),
+                    highlightColor: Color(0xff009a8a),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5))
+                    ),
+                    color: Color(0XFF22b0a1),
+                    onPressed: (){
+                        this._purchase();
+                    },
+                )
+            ),
             body: ConstrainedBox(
             constraints: BoxConstraints.expand(),
-            child: isLoading ? Loading() : Stack(
-                alignment: Alignment.topLeft,
-                children: <Widget>[
-                Container(
+            child: isLoading ? Loading() : Container(
+                    height: 300,
                     child: InAppWebView(
                         initialUrl: "${Config.WEB_URL}/app/#/shopTreeDetail?sid=${arguments['id']}",
-                    ),
-                ),
-                Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    height: ScreenAdaper.height(110),
-                    child:Container(
-                    width: double.infinity,
-                    color: Colors.white,
-                    height: ScreenAdaper.height(88),
-                    padding: EdgeInsets.only(left: ScreenAdaper.width(30),right: ScreenAdaper.width(30),top:ScreenAdaper.height(14),bottom: ScreenAdaper.height(14)),
-                    child:  RaisedButton(
-                        child: Text(
-                            '购买',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: ScreenAdaper.fontSize(40)
-                            )
-                        ),
-                        disabledColor: Color(0XFF86d4ca),
-                        splashColor: Color.fromARGB(0, 0, 0, 0),
-                        highlightColor: Color(0xff009a8a),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5))
-                        ),
-                        color: Color(0XFF22b0a1),
-                        onPressed: (){
-                            this._purchase();
-                        },
-                    ),
-                    ),
+                    )
                 )
-                ],
-            ),
             ));
     }
 }

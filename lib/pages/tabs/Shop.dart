@@ -95,8 +95,9 @@ class _ShopPageState extends State<ShopPage> {
     }
     onPay (String type, int number, int id, int forestTypes) async {
         int userId = Provider.of<User>(context).userId;
-        if (type == "wx") {
-            Map res = await this.http.post("/api/v12/wxpay/unifiedorder", params: {
+        Map res = await this.http.post(type == "wx"
+            ? "/api/v12/wxpay/unifiedorder"
+            : "/api/v12/alipay/unifiedorder", params: {
                 "wood": {
                     "channel": "Wechat",
                     "num": number,
@@ -108,7 +109,8 @@ class _ShopPageState extends State<ShopPage> {
                 },
                 "goodsType": "tree"
             });
-            if (res["code"] == 200) {
+        if (res["code"] == 200) {
+            if (type == "wx") {
                 var data = jsonDecode(res["data"]);
                 Map<String, String> payInfo = {
                     "appid":"wxa22d7212da062286",
@@ -124,6 +126,8 @@ class _ShopPageState extends State<ShopPage> {
                 } catch (e) {
                     print(e);
                 }
+            } else {
+
             }
         }
     }
