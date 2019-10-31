@@ -4,7 +4,10 @@ import 'dart:math';
 // import 'package:amap_location/amap_location_option.dart';
 import 'package:sml_ios/components/calendarPage/toast_widget.dart';
 // import 'package:location_permissions/location_permissions.dart';
-// import 'package:sy_flutter_wechat/sy_flutter_wechat.dart';
+import 'package:sy_flutter_wechat_183/sy_flutter_wechat_183.dart';
+import 'package:tobias/tobias.dart' ;
+import '../components/calendarPage/toast_widget.dart';
+
 getDistance(double lat1, double lng1, double lat2, double lng2) {
     double radLat1 = rad(lat1);
     double radLat2 = rad(lat2);
@@ -55,20 +58,44 @@ String getDistanceText (double distance) {
 }
 
 wechatPay (Map payInfo, {Function success, Function fail, Function cancel, Function error}) async {
+    
     try {
-        // SyPayResult payResult = await SyFlutterWechat.pay(SyPayInfo.fromJson(payInfo));
-        // if (payResult == SyPayResult.success) {
-        //     success != null && success();
-        // } else if (payResult == SyPayResult.cancel) {
-        //     cancel != null && cancel();
-        // } else if (payResult == SyPayResult.fail) {
-        //     fail != null && fail();
-        // } else {
-        //     error != null && error();
-        // }
+        SyPayResult payResult = await SyFlutterWechat.pay(SyPayInfo.fromJson(payInfo));
+        if (payResult == SyPayResult.success) {
+            success != null && success();
+        } else if (payResult == SyPayResult.cancel) {
+            cancel != null && cancel();
+        } else if (payResult == SyPayResult.fail) {
+            fail != null && fail();
+        } else {
+            error != null && error();
+        }
     }
     catch (e) {
         error != null && error();
     }
     
+}
+
+tobiasPay (String payInfo, {Function success, Function fail, Function cancel, Function error}) async {
+    var result = await isAliPayInstalled();
+    if (result) {
+        try {
+            print(123);
+            Map payResult = await aliPay(payInfo);
+            print(123);
+            print(payResult);
+            if (payResult["resultStatus"] == "9000") {
+                success != null && success();
+            } else if (payResult["resultStatus"] == "6001") {
+                cancel != null && cancel();
+            } else {
+            error != null && error("!23");
+            }
+        } on Exception catch (e) {
+            error != null && error(e);
+        }
+    } else {
+        ShowToast().showToast("请先安装支付宝");
+    }
 }

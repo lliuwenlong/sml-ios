@@ -347,10 +347,14 @@ class _AuthenticationState extends State<Authentication>{
               ),
             ),
             Container(
+                padding: EdgeInsets.only(
+                    left: ScreenAdaper.width(30),
+                    right: ScreenAdaper.width(30)
+                ),
                 margin: EdgeInsets.only(
                     top: ScreenAdaper.height(30)
                 ),
-                child: Text("实名认证审核需要1-3个个工作日,请您耐心等待", style: TextStyle(
+                child: Text("实名认证审核需要1-3个工作日,请您耐心等待,审核结果在请在系统消息中查看", style: TextStyle(
                     color: Color(0xFF666666),
                     fontSize: ScreenAdaper.fontSize(28)
                 )),

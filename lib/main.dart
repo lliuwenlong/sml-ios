@@ -20,7 +20,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import './common/HttpUtil.dart';
 import './components/AppFuncBrowse.dart';
 // import 'package:amap_location/amap_location.dart';
-// import 'package:sy_flutter_wechat/sy_flutter_wechat.dart';
+import 'package:sy_flutter_wechat_183/sy_flutter_wechat_183.dart';
+
 
 
 void main() {
@@ -74,7 +75,7 @@ class _MyAppState extends State<MyApp>  {
     }
 
     _initFluwx() async {
-        // await SyFlutterWechat.register('wxa22d7212da062286');
+        await SyFlutterWechat.register('wxa22d7212da062286');
         // print(result);
         // await fluwx.register(
         //     appId: "wxa22d7212da062286",
@@ -148,7 +149,7 @@ class _MyAppState extends State<MyApp>  {
                 ],
                 supportedLocales: [
                     const Locale('zh', 'CH'),
-                    const Locale('en', 'US'),
+                    const Locale('en', 'US')
                 ]
             )
         );

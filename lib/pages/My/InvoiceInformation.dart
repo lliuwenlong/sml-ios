@@ -92,8 +92,8 @@ class _InvoiceInformationState extends State<InvoiceInformation> {
           ],
           "phone": this._invoiceModel.phone,
           "province": this._invoiceModel.province,
-          "receiptCode": this._invoiceModel.receiptCode,
-          "receiptHeader": this._invoiceModel.receiptHeader,
+          "receiptCode": this._dutyParagraphController.text,
+          "receiptHeader": this._invoiceRiseController.text,
           "receiverUser": this._invoiceModel.receiverUser,
           "remark": this._invoiceModel.remarks,
           "userId": this._userModel.userId
@@ -108,6 +108,7 @@ class _InvoiceInformationState extends State<InvoiceInformation> {
               fontSize: ScreenAdaper.fontSize(30),
               gravity: ToastGravity.CENTER
             );
+            Navigator.pop(context);
       	}else{
           Fluttertoast.showToast(
             msg: response['msg'],
@@ -222,17 +223,17 @@ class _InvoiceInformationState extends State<InvoiceInformation> {
                                               (val){
                                                 setState(() {
                                                     this._invoiceModel.initInvoiceInfo(
-                                                      province: this._invoiceModel.province,
-                                                      city: this._invoiceModel.city,
-                                                      county: this._invoiceModel.county,
-                                                      address: this._invoiceModel.address,
-                                                      phone: this._invoiceModel.phone,
-                                                      receiverUser: this._invoiceModel.receiverUser,
-                                                      amount: this._invoiceModel.amount,
-                                                      orderSn: this._invoiceModel.orderSn,
-                                                      remarks: this._invoiceModel.remarks,
-                                                      receiptCode: this._invoiceModel.receiptCode,
-                                                      receiptHeader: this._invoiceRiseController.text
+                                                        province: this._invoiceModel.province,
+                                                        city: this._invoiceModel.city,
+                                                        county: this._invoiceModel.county,
+                                                        address: this._invoiceModel.address,
+                                                        phone: this._invoiceModel.phone,
+                                                        receiverUser: this._invoiceModel.receiverUser,
+                                                        amount: this._invoiceModel.amount,
+                                                        orderSn: this._invoiceModel.orderSn,
+                                                        remarks: this._invoiceModel.remarks,
+                                                        receiptCode: this._invoiceModel.receiptCode,
+                                                        receiptHeader: this._invoiceRiseController.text
                                                     );
                                                 });
                                               },

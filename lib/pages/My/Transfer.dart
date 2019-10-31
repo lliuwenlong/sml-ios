@@ -193,7 +193,7 @@ _submitData () async {
                   ScreenAdaper.height(30), ScreenAdaper.width(78), 0),
               alignment: Alignment.center,
               child: Text(
-                '温馨提示：转让之后，神木将不再属于你，请仔细核对被转让人手机号，以免造成损失。',
+                '温馨提示：转让之后，神木将不再属于你，请仔细核对被转让人手机号，以免造成损失，订单购买成功后7天内不可进行转让',
                 style: TextStyle(
                     color: Color(0xff999999),
                     fontSize: ScreenAdaper.fontSize(24),

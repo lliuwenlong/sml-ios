@@ -159,37 +159,38 @@ class _OrderState extends State<Order> with SingleTickerProviderStateMixin{
     }
     
     void _onRefresh() async{
+        print(123);
         setState(() {
             if ( _tabController.index == 0 ) {
                 this.allPage = 1;
 				this.page = this.allPage;
-            } else if( _tabController.index == 1 ) {
+            } else if( _tabController.index == 2 ) {
                 this.paymentPage = 1;
 				this.page = this.paymentPage;
-            } else if( _tabController.index == 2 ) {
+            } else if( _tabController.index == 3 ) {
                 this.toBeUsedPage = 1;
 				this.page = this.toBeUsedPage;
-            } else if ( _tabController.index == 3 ) {
+            } else if ( _tabController.index == 4 ) {
                 this.toBeEvaluatedPage = 1;
 				this.page = this.toBeEvaluatedPage;
-            } else if ( _tabController.index == 4 ) {
+            } else if ( _tabController.index == 5 ) {
                 this.refundPage = 1;
 				this.page = this.refundPage;
             } else {
-				 this.finishedPage = 1;
+				this.finishedPage = 1;
 				this.page = this.finishedPage;
 			}
         });
         var controller;
         if ( _tabController.index == 0 ) {
             controller = this.allController;
-        } else if( _tabController.index == 1 ) {
-            controller = this.paymentController;
         } else if( _tabController.index == 2 ) {
+            controller = this.paymentController;
+        } else if( _tabController.index == 3 ) {
             controller = this.toBeUsedController;
-        } else if ( _tabController.index == 3 ) {
-            controller = this.toBeEvaluatedController;
         } else if ( _tabController.index == 4 ) {
+            controller = this.toBeEvaluatedController;
+        } else if ( _tabController.index == 5 ) {
             controller = this.refundController;
         } else {
 			controller = this.finishedController;
@@ -208,18 +209,18 @@ class _OrderState extends State<Order> with SingleTickerProviderStateMixin{
 	}
 
 	_getData ({bool isInit = false}) async {
-		if (
-            isInit
-            && ((this._tabController.index == 0 && this.allLoading == false)
-            || (this._tabController.index == 2 && this.paymentLoading == false)
-			|| (this._tabController.index == 3 && this.toBeUsedLoading == false)
-			|| (this._tabController.index == 4 && this.toBeEvaluatedLoading == false)
-			|| (this._tabController.index == 5 && this.refundLoading == false)
-			|| (this._tabController.index == 6 && this.finishedLoading == false)
-			)
-        ) {
-            return null;
-        }
+		// if (
+        //     isInit
+        //     && ((this._tabController.index == 0 && this.allLoading == false)
+        //     || (this._tabController.index == 2 && this.paymentLoading == false)
+		// 	|| (this._tabController.index == 3 && this.toBeUsedLoading == false)
+		// 	|| (this._tabController.index == 4 && this.toBeEvaluatedLoading == false)
+		// 	|| (this._tabController.index == 5 && this.refundLoading == false)
+		// 	|| (this._tabController.index == 1 && this.finishedLoading == false)
+		// 	)
+        // ) {
+        //     return null;
+        // }
          
 		Map response = await this.http.get('/api/v1/order/data', data: {
 			"pageNO": this.page,
@@ -238,31 +239,30 @@ class _OrderState extends State<Order> with SingleTickerProviderStateMixin{
 					this.loading = allLoading;
 				} break;
                 case 1 : {
-					refundList = res.data.list;
-					refundLoading = false;
-					this.loading = refundLoading;
-				} break;
-                case 2 : {
 					finishedList = res.data.list;
 					finishedLoading = false;
 					this.loading = finishedLoading;
 				} break;
-				case 3 : {
+				case 2 : {
 					paymentList = res.data.list;
 					paymentLoading = false;
 					this.loading = paymentLoading;
 				} break;
-				case 4 : {
+				case 3 : {
 					toBeUsedList = res.data.list;
 					toBeUsedLoading = false;
 					this.loading = toBeUsedLoading;
 				} break;
-				case 5 : {
+				case 4 : {
 					toBeEvaluatedList = res.data.list;
 					toBeEvaluatedLoading = false;
 					this.loading = toBeEvaluatedLoading;
 				} break;
-				
+				case 5 : {
+					refundList = res.data.list;
+					refundLoading = false;
+					this.loading = refundLoading;
+				} break;
 				}
 			});
       	} else {
@@ -288,16 +288,15 @@ class _OrderState extends State<Order> with SingleTickerProviderStateMixin{
   Widget _itemWidget ({var data}) {
       
       return GestureDetector(
-				onTap: (){
+		onTap: (){
           if(data.status == '1'){//去付款
             if (data.type == 'house') {
-               Navigator.pushNamed(context, '/acknowledgement',arguments: {
-                'orderSn':data.orderSn,
-                'type':data.type,
-                'firmId':data.firmId
-              });
+                Navigator.pushNamed(context, '/acknowledgement',arguments: {
+                    'orderSn': data.orderSn,
+                    'type': data.type,
+                    'firmId': data.firmId
+                });
             }else{
-             
                 Navigator.pushNamed(context, '/payment',arguments: {
                   'amount':data.amount,
                   'orderSn':data.orderSn,
@@ -525,36 +524,6 @@ class _OrderState extends State<Order> with SingleTickerProviderStateMixin{
                             )
                     ),
                     SmartRefresher(
-                        controller: refundController,
-                        enablePullDown: true,
-                        enablePullUp: true,
-                        header: WaterDropHeader(),
-                        footer: ClassicFooter(
-                            loadStyle: LoadStyle.ShowWhenLoading,
-                            idleText: "上拉加载",
-                            failedText: "加载失败！点击重试！",
-                            canLoadingText: "加载更多",
-                            noDataText: "没有更多数据",
-                            loadingText: "加载中"
-                        ),
-                        onRefresh: _onRefresh,
-                        onLoading: _onLoading,
-                        child: this.loading
-                            ? Container(
-                                margin: EdgeInsets.only(
-                                    top: ScreenAdaper.height(200)
-                                ),
-                                child: Loading(),
-                            ) : this.refundList.length <= 0 ? NullContent('暂无数据'):
-                             ListView.builder(
-                                itemCount: this.refundList.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                    var data = this.refundList[index];
-                                    return this._itemWidget(data:data);
-                                }
-                            )
-                    ),
-                    SmartRefresher(
                         controller: finishedController,
                         enablePullDown: true,
                         enablePullUp: true,
@@ -673,7 +642,37 @@ class _OrderState extends State<Order> with SingleTickerProviderStateMixin{
                                     return this._itemWidget(data:data);
                                 }
                             )
-                    )
+                    ),
+                    SmartRefresher(
+                        controller: refundController,
+                        enablePullDown: true,
+                        enablePullUp: true,
+                        header: WaterDropHeader(),
+                        footer: ClassicFooter(
+                            loadStyle: LoadStyle.ShowWhenLoading,
+                            idleText: "上拉加载",
+                            failedText: "加载失败！点击重试！",
+                            canLoadingText: "加载更多",
+                            noDataText: "没有更多数据",
+                            loadingText: "加载中"
+                        ),
+                        onRefresh: _onRefresh,
+                        onLoading: _onLoading,
+                        child: this.loading
+                            ? Container(
+                                margin: EdgeInsets.only(
+                                    top: ScreenAdaper.height(200)
+                                ),
+                                child: Loading(),
+                            ) : this.refundList.length <= 0 ? NullContent('暂无数据'):
+                             ListView.builder(
+                                itemCount: this.refundList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                    var data = this.refundList[index];
+                                    return this._itemWidget(data:data);
+                                }
+                            )
+                    ),
                 ]
             )
         );

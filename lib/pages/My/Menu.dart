@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:sml_ios/components/calendarPage/toast_widget.dart';
 import '../../services/ScreenAdaper.dart';
+
 class Menu extends StatelessWidget {
     const Menu({Key key}) : super(key: key);
 
     Widget _menuItem (context, String name, String url, double width, double height, String routeName) {
         return GestureDetector(
             onTap: () {
+                if (name == "我的钱包") {
+                    ShowToast().showToast("敬请期待");
+                }
                 Navigator.pushNamed(context, routeName);
             },
             child: Column(

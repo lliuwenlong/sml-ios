@@ -1,5 +1,10 @@
+import 'dart:io';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:city_pickers/city_pickers.dart';
+import 'package:provider/provider.dart';
+import '../../../model/store/user/User.dart';
 import '../../../services/ScreenAdaper.dart';
 import '../../../components/AppBarWidget.dart';
 import '../../../common/Color.dart';
@@ -90,8 +95,36 @@ class _CancellationOrderState extends State<CancellationOrder> {
         citiesData: citiesData,
         cancelWidget: Text("取消")
     );
-
-    print(result.provinceName);
+    if (result != null) {
+        Map res;
+        if (this.arguments["type"] == "tree") {
+            res = await this.http.post("/api/v1/order/wood/update", params: {
+                "cancelReason": result.provinceName,
+                "orderSn": arguments['orderSn'],
+                "userId": Provider.of<User>(context).userId
+            });
+            print({
+                "cancelReason": result.provinceName,
+                "orderSn": arguments['orderSn'],
+                "userId": Provider.of<User>(context).userId
+            });
+        } else if (this.arguments["type"] == "havefun") {
+            res = await this.http.post("/api/v1/fun/order/renew", params: {
+                "orderSn": arguments['orderSn'],
+                "refundReason": result.provinceName,
+                "userId": Provider.of<User>(context).userId
+            });
+        } else if (this.arguments["type"] == "house") {
+            res = await this.http.post("/api/v1/house/order/renew", params: {
+                "orderSn": arguments['orderSn'],
+                "refundReason": result.provinceName,
+                "userId": Provider.of<User>(context).userId
+            });
+        }
+        if (res["code"] == 200) {
+            Navigator.pop(context);
+        }
+    }
   }
 
   final HttpUtil http = HttpUtil();
@@ -100,7 +133,6 @@ class _CancellationOrderState extends State<CancellationOrder> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    print(arguments['orderSn']);
     this._getData();
   }
 
@@ -131,9 +163,22 @@ class _CancellationOrderState extends State<CancellationOrder> {
             bottomSheet: ((arguments['type'] == 'house' ||
                         arguments['type'] == 'havefun') &&
                     arguments['status'] == '2')||(arguments['type']=='tree'&&arguments['status']=='8')
-                ? FotterButton("取消订单", onTapHandler: () {
-                    this.onTapHandler(context: context);
-                })
+                ? Container(
+                    width: double.infinity,
+                    height: ScreenAdaper.height(110) + MediaQueryData.fromWindow(window).padding.bottom,
+                    padding: EdgeInsets.only(
+                        bottom: MediaQueryData.fromWindow(window).padding.bottom
+                    ),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                            BoxShadow(color: Colors.black12, blurRadius: 1)
+                        ]
+                    ),
+                    child: FotterButton("取消订单", onTapHandler: () {
+                        this.onTapHandler(context: context);
+                    })
+                )
                 : SizedBox(height: 0,),
             body: ListView(children: <Widget>[
             arguments['type']== 'tree' || arguments['type']== 'house'||arguments['type']== 'havefun'||arguments['type']== 'food'?	this._item(

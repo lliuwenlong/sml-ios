@@ -93,6 +93,7 @@ class _ShopPageState extends State<ShopPage> {
             _refreshController.loadComplete();
         }
     }
+
     onPay (String type, int number, int id, int forestTypes) async {
         int userId = Provider.of<User>(context).userId;
         Map res = await this.http.post(type == "wx"
@@ -123,11 +124,18 @@ class _ShopPageState extends State<ShopPage> {
                 };
                 try  {
                     await wechatPay(payInfo, success: this.nav);
+                    Provider.of<ShopModel>(context).changeIsDisabled(false);
                 } catch (e) {
-                    print(e);
+                    print('微信' + e);
+                    Provider.of<ShopModel>(context).changeIsDisabled(false);
                 }
             } else {
-
+                try {
+                    await tobiasPay(res["data"], success: this.nav);
+                    Provider.of<ShopModel>(context).changeIsDisabled(false);
+                } catch (e) {
+                    print('支付宝' + e);
+                }
             }
         }
     }

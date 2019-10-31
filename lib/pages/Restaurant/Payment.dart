@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
@@ -35,13 +36,16 @@ class _PaymentState extends State<Payment> {
 	List couponList = [];
     bool isDisabled = false;
     Map chooseCouponParams = {};
+    Timer _countdownTimer;
+
     @override
     void initState() {
         // print(this.arguments);
         super.initState();
-        if (this.arguments["type"] == 4) {
+        if (this.arguments["type"] == 4 || this.arguments["type"] == "house") {
             this._inputText = this.arguments["amount"];
         }
+        
         // fluwx.responseFromPayment.listen((response){
         //     setState(() {
         //         this.isDisabled = false;
@@ -58,6 +62,13 @@ class _PaymentState extends State<Payment> {
 		_userModel = Provider.of<User>(context);
 		_getData();
 	}
+
+    @override
+    void dispose() {
+        // _countdownTimer?.cancel();
+        // _countdownTimer = null;
+        // super.dispose();
+    }
 
     _getPrice () {
         if (this.arguments["type"] == 4 && this.chooseCouponParams['worth'] == "0"){
@@ -108,6 +119,15 @@ class _PaymentState extends State<Payment> {
                 "userId": this._userModel.userId
             };
             params["goodsType"] = type[this.arguments['type']];
+        } else if (this.arguments["type"] == "house") {
+            params["house"] = {
+                "channel": "Wechat",
+                "platform": Platform.isAndroid ? "Android" : "IOS",
+                "tradeType": "APP",
+                "orderSn": this.arguments['orderSn'],
+                "userId": this._userModel.userId
+            };
+            params["goodsType"] = "house";
         } else {
             params["food"] = {
                 "amount": this._moneyController.text,
@@ -122,40 +142,76 @@ class _PaymentState extends State<Payment> {
             };
             params["goodsType"] = type[this.arguments['type']];
         }
-        print(params);
-        if (this._payType == "Wechat") {
-            Map res = await this.http.post("/api/v12/wxpay/unifiedorder", params: params);
-            print(res);
+        Map res;
+        // /api/v1/payinfo/paystate
+        if (this.arguments["type"] == "house") {
+            res = await this.http.post("/api/v12/wxpay/repay", data: {
+                "channel": "Alipay",
+                "orderSn": this.arguments["orderSn"],
+                "platform": Platform.isAndroid ? "Android" : "IOS",
+                "tradeType": "APP"
+            });
+        } else {
+            res = await this.http.post(_payType == "Wechat"
+                ? "/api/v12/wxpay/unifiedorder"
+                : "/api/v12/alipay/unifiedorder", params: params);
+        }
+        print(jsonDecode(res["data"])["orderSn"]);
+        
             if (res["code"] == 200) {
-                var data = jsonDecode(res["data"]);
-                Map<String, String> payInfo = {
-                    "appid":"wxa22d7212da062286",
-                    "partnerid": data["partnerid"],
-                    "prepayid": data["prepayid"],
-                    "package": "Sign=WXPay",
-                    "noncestr": data["noncestr"],
-                    "timestamp": data["timestamp"],
-                    "sign": data["sign"].toString()
-                };
-                try  {
-                    await wechatPay(payInfo, success: this.success);
+                if (Platform.isIOS) {
                     setState(() {
                         this.isDisabled = false;
+                        _countdownTimer = new Timer.periodic(new Duration(seconds: 2), (timer) async {
+                            Map response = await http.post("/api/v1/payinfo/paystate", params: jsonDecode(res["data"])["orderSn"]);
+                            print(response["data"] == "2");
+                            if (response["data"] == "2") {
+                                this.success();
+                                _countdownTimer.cancel();
+                                _countdownTimer = null;
+                            }
+                        });
                     });
-                } catch (e) {
-                    print(e);
                 }
-                // await fluwx.pay(appId: "wxa22d7212da062286", 
-                //     partnerId: data["partnerid"],
-                //     prepayId: data["prepayid"],
-                //     packageValue: data["package"],
-                //     nonceStr: data["noncestr"],
-                //     timeStamp: int.parse(data["timestamp"]),
-                //     sign: data["sign"].toString(),
-                //     signType: data["signType"]
-                // );
+                if (this._payType == "Wechat") {
+                    var data = jsonDecode(res["data"]);
+                    Map<String, String> payInfo = {
+                        "appid":"wxa22d7212da062286",
+                        "partnerid": data["partnerid"],
+                        "prepayid": data["prepayid"],
+                        "package": "Sign=WXPay",
+                        "noncestr": data["noncestr"],
+                        "timestamp": data["timestamp"],
+                        "sign": data["sign"].toString()
+                    };
+                    try  {
+                        await wechatPay(payInfo, success: this.success);
+                        setState(() {
+                            this.isDisabled = false;
+                        });
+                    } catch (e) {
+                        print('微信' + e);
+                    }
+                    // await fluwx.pay(appId: "wxa22d7212da062286", 
+                    //     partnerId: data["partnerid"],
+                    //     prepayId: data["prepayid"],
+                    //     packageValue: data["package"],
+                    //     nonceStr: data["noncestr"],
+                    //     timeStamp: int.parse(data["timestamp"]),
+                    //     sign: data["sign"].toString(),
+                    //     signType: data["signType"]
+                    // );
+                } else {
+                    try {
+                        await tobiasPay(res["data"], success: this.success);
+                        setState(() {
+                            this.isDisabled = false;
+                        });
+                    } catch (e) {
+                        print('支付宝' + e);
+                    }
+                }
             }
-        }
     }
     success () {
         Navigator.pushReplacementNamed(context, "/order");
@@ -256,7 +312,8 @@ class _PaymentState extends State<Payment> {
                                                             fontSize: ScreenAdaper.fontSize(_inputText != "" ? 50 : 30),
                                                         ),
                                                         controller: _moneyController,
-                                                        keyboardType: TextInputType.number,
+                                                        // keyboardType: TextInputType,
+                                                        keyboardAppearance: Brightness.light,
                                                         inputFormatters: <TextInputFormatter>[
                                                             // WhitelistingTextInputFormatter.digitsOnly,
                                                             WhitelistingTextInputFormatter(RegExp("[0-9.]"))
@@ -287,7 +344,7 @@ class _PaymentState extends State<Payment> {
                                     )
                                 ),
                             ),
-                            Container(
+                            this.arguments["type"] != "house" ? Container(
                                 padding: EdgeInsets.only(left: ScreenAdaper.width(30),right: ScreenAdaper.width(30)),
                                 color: Colors.white,
                                 child: Container(
@@ -405,7 +462,7 @@ class _PaymentState extends State<Payment> {
                                     ),
                                 )
                                 ),
-                            ),
+                            ) : SizedBox(),
                             Container(
                                 padding: EdgeInsets.only(left: ScreenAdaper.width(30),right: ScreenAdaper.width(30)),
                                 color: Colors.white,
@@ -532,64 +589,64 @@ class _PaymentState extends State<Payment> {
                             Container(
                                 padding: EdgeInsets.only(left: ScreenAdaper.width(30),right: ScreenAdaper.width(30),bottom: ScreenAdaper.height(50)),
                                 color: Colors.white,
-                            // child: Container(
-                            //     height: ScreenAdaper.height(100),
-                            //     child: GestureDetector(
-                            //         onTap: () {
-                            //             setState(() {
-                            //                 this._payType = 'Alipay';
-                            //             });
-                            //         },
-                            //         child: Row(
-                            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //         children: <Widget>[
-                            //             Row(
-                            //                 children: <Widget>[
-                            //                     Icon(
-                            //                         IconData(0xe623, fontFamily: 'iconfont'),
-                            //                         size: ScreenAdaper.fontSize(40),
-                            //                         color: Color(0xff00a9e9),
-                            //                     ),
-                            //                     SizedBox(
-                            //                         width: ScreenAdaper.width(20),
-                            //                     ),
-                            //                     Text(
-                            //                     '支付宝支付',
-                            //                     style: TextStyle(
-                            //                         color: Color(0xff333333),
-                            //                         fontSize: ScreenAdaper.fontSize(28)),
-                            //                     )
-                            //                 ],
-                            //             ),
-                            //             _payType == 'Alipay'
-                            //                 ? CircleAvatar(
-                            //                     backgroundColor: Color(0xffd4746c),
-                            //                     radius: ScreenAdaper.width(20),
-                            //                     child: Icon(
-                            //                     IconData(0xe643, fontFamily: 'iconfont'),
-                            //                     size: ScreenAdaper.fontSize(20),
-                            //                     color: Color(0xffffffff),
-                            //                     ),
-                            //                 )
-                            //                 : CircleAvatar(
-                            //                     radius: ScreenAdaper.width(20),
-                            //                     backgroundColor:Colors.white,
-                            //                     child: Container(
-                            //                         width: ScreenAdaper.width(40),
-                            //                         height: ScreenAdaper.height(40),
-                            //                         decoration: BoxDecoration(
-                            //                             color: Color(0xfff7f7f7),
-                            //                             border: Border.all(
-                            //                                 color: Color(0xff999999),
-                            //                                 width: ScreenAdaper.width(1)
-                            //                             ),
-                            //                             borderRadius: BorderRadius.all(
-                            //                                 Radius.circular(40)))),
-                            //                 )
-                            //             ],
-                            //         ),
-                            //     )
-                            //     ),
+                                child: Container(
+                                    height: ScreenAdaper.height(100),
+                                    child: GestureDetector(
+                                        onTap: () {
+                                            setState(() {
+                                                this._payType = 'Alipay';
+                                            });
+                                        },
+                                        child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                            Row(
+                                                children: <Widget>[
+                                                    Icon(
+                                                        IconData(0xe623, fontFamily: 'iconfont'),
+                                                        size: ScreenAdaper.fontSize(40),
+                                                        color: Color(0xff00a9e9),
+                                                    ),
+                                                    SizedBox(
+                                                        width: ScreenAdaper.width(20),
+                                                    ),
+                                                    Text(
+                                                    '支付宝支付',
+                                                    style: TextStyle(
+                                                        color: Color(0xff333333),
+                                                        fontSize: ScreenAdaper.fontSize(28)),
+                                                    )
+                                                ],
+                                            ),
+                                            _payType == 'Alipay'
+                                                ? CircleAvatar(
+                                                    backgroundColor: Color(0xffd4746c),
+                                                    radius: ScreenAdaper.width(20),
+                                                    child: Icon(
+                                                    IconData(0xe643, fontFamily: 'iconfont'),
+                                                    size: ScreenAdaper.fontSize(20),
+                                                    color: Color(0xffffffff),
+                                                    ),
+                                                )
+                                                : CircleAvatar(
+                                                    radius: ScreenAdaper.width(20),
+                                                    backgroundColor:Colors.white,
+                                                    child: Container(
+                                                        width: ScreenAdaper.width(40),
+                                                        height: ScreenAdaper.height(40),
+                                                        decoration: BoxDecoration(
+                                                            color: Color(0xfff7f7f7),
+                                                            border: Border.all(
+                                                                color: Color(0xff999999),
+                                                                width: ScreenAdaper.width(1)
+                                                            ),
+                                                            borderRadius: BorderRadius.all(
+                                                                Radius.circular(40)))),
+                                                )
+                                            ],
+                                        ),
+                                    )
+                                ),
                             ),
                             Container(
                                 padding: EdgeInsets.only(
@@ -597,7 +654,7 @@ class _PaymentState extends State<Payment> {
                                     top: ScreenAdaper.height(30)
                                 ),
                                 alignment: Alignment.centerLeft,
-                                child: Text("仅限于到店付，请确认金额后付款", style: TextStyle(
+                                child: Text("", style: TextStyle(
                                     color: Color(0xFF666666),
                                     fontSize: ScreenAdaper.fontSize(28)
                                 )),

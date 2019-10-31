@@ -60,7 +60,9 @@ class _PurchaseState extends State<Purchase>  {
         setState(() {
             this.isDisabled = true;
         });
-        Map res = await this.http.post('/api/v12/wxpay/unifiedorder', params: {
+        Map res = await this.http.post(payType == "Wechat"
+            ? "/api/v12/wxpay/unifiedorder"
+            : "/api/v12/alipay/unifiedorder", params: {
             "valueProduct": {
                 "amount": this.price*this.treeNum,
                 "channel": "Wechat",
@@ -73,45 +75,55 @@ class _PurchaseState extends State<Purchase>  {
             },
             "goodsType": "valuepro"
         });
-        
-		if(res['code']== 200){
-			var data = jsonDecode(res["data"]);
-            Map<String, String> payInfo = {
-                "appid":"wxa22d7212da062286",
-                "partnerid": data["partnerid"],
-                "prepayid": data["prepayid"],
-                "package": "Sign=WXPay",
-                "noncestr": data["noncestr"],
-                "timestamp": data["timestamp"],
-                "sign": data["sign"].toString()
-            };
-            try  {
-                await wechatPay(payInfo, success: this.success);
-                setState(() {
-                    this.isDisabled = false;
-                });
-            } catch (e) {
-                print(e);
+        if(res['code']== 200){
+            if (this.payType == "Wechat") {
+                var data = jsonDecode(res["data"]);
+                Map<String, String> payInfo = {
+                    "appid":"wxa22d7212da062286",
+                    "partnerid": data["partnerid"],
+                    "prepayid": data["prepayid"],
+                    "package": "Sign=WXPay",
+                    "noncestr": data["noncestr"],
+                    "timestamp": data["timestamp"],
+                    "sign": data["sign"].toString()
+                };
+                try  {
+                    await wechatPay(payInfo, success: this.success);
+                    setState(() {
+                        this.isDisabled = false;
+                    });
+                } catch (e) {
+                    print('微信' + e);
+                }
+            } else {
+                try {
+                    await tobiasPay(res["data"], success: this.success);
+                    setState(() {
+                        this.isDisabled = false;
+                    });
+                } catch (e) {
+                    print('支付宝' + e);
+                }
             }
-            // fluwx.pay(appId: "wxa22d7212da062286", 
-            //     partnerId: data["partnerid"],
-            //     prepayId: data["prepayid"],
-            //     packageValue: data["package"],
-            //     nonceStr: data["noncestr"],
-            //     timeStamp: int.parse(data["timestamp"]),
-            //     sign: data["sign"].toString(),
-            //     signType: data["signType"]
-            // ).then((val) {
-            //     Fluttertoast.showToast(
-            //         msg: "${val}",
-            //         toastLength: Toast.LENGTH_SHORT,
-            //         gravity: ToastGravity.CENTER,
-            //         timeInSecForIos: 1,
-            //         textColor: Colors.white,
-            //         fontSize: ScreenAdaper.fontSize(30)
-            //     );
-            // });
-		}
+        }
+        // fluwx.pay(appId: "wxa22d7212da062286", 
+        //     partnerId: data["partnerid"],
+        //     prepayId: data["prepayid"],
+        //     packageValue: data["package"],
+        //     nonceStr: data["noncestr"],
+        //     timeStamp: int.parse(data["timestamp"]),
+        //     sign: data["sign"].toString(),
+        //     signType: data["signType"]
+        // ).then((val) {
+        //     Fluttertoast.showToast(
+        //         msg: "${val}",
+        //         toastLength: Toast.LENGTH_SHORT,
+        //         gravity: ToastGravity.CENTER,
+        //         timeInSecForIos: 1,
+        //         textColor: Colors.white,
+        //         fontSize: ScreenAdaper.fontSize(30)
+        //     );
+        // });
     }
 
     success () {
@@ -339,22 +351,22 @@ class _PurchaseState extends State<Purchase>  {
                             top: ScreenAdaper.height(10),
                         ),
                         decoration: BoxDecoration(
-                            // border: Border(
-                            //     bottom: BorderSide(
-                            //         color: ColorClass.borderColor,
-                            //         width: ScreenAdaper.width(1)
-                            //     )
-                            // )
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: ColorClass.borderColor,
+                                    width: ScreenAdaper.width(1)
+                                )
+                            )
                         ),
                         child: _rowItem("Wechat")
                     ),
-                    // Container(
-                    //     padding: EdgeInsets.only(
-                    //         top: ScreenAdaper.height(30),
-                    //         bottom: ScreenAdaper.height(30)
-                    //     ),
-                    //     child: _rowItem("Alipay")
-                    // ),
+                    Container(
+                        padding: EdgeInsets.only(
+                            top: ScreenAdaper.height(30),
+                            bottom: ScreenAdaper.height(30)
+                        ),
+                        child: _rowItem("Alipay")
+                    ),
                     Container(
                         margin:  EdgeInsets.only(
                             top: ScreenAdaper.height(20),

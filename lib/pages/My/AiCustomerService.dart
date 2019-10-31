@@ -26,16 +26,17 @@ class _AiCustomerServiceState extends State<AiCustomerService> {
 				});
         this._commentFocus.unfocus();
         int len = this._chatList.length;
-        this._scrollController.animateTo(
-            context.size.height*len,
-            duration: Duration(milliseconds: 1000),
-            curve: Curves.ease
-        );
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+        // this._scrollController.animateTo(
+        //     context.size.height*len,
+        //     duration: Duration(milliseconds: 1000),
+        //     curve: Curves.ease
+        // );
         
 			});
 		}
   	}
- ScrollController _scrollController = new ScrollController();
+ ScrollController _scrollController = new ScrollController(keepScrollOffset: false);
 @override
 void didChangeDependencies() {
 	super.didChangeDependencies();
@@ -167,11 +168,7 @@ void didChangeDependencies() {
                                     _controller.text = '';
                                     int len = this._chatList.length;
                                     this._sendMessage(context);
-                                    this._scrollController.animateTo(
-                                      context.size.height*len,
-                                      duration: Duration(milliseconds: 1000),
-                                      curve: Curves.ease
-                                    );
+                                    _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
                                 });
                            
                                 } : null,
@@ -237,6 +234,7 @@ void didChangeDependencies() {
                   padding: EdgeInsets.fromLTRB(ScreenAdaper.width(30), 0,
                       ScreenAdaper.width(30), ScreenAdaper.height(98)),
                   child: ListView.builder(
+                    physics: ClampingScrollPhysics(),
                     itemCount: this._chatList.length,
                     itemBuilder: chatContent,
                     controller:_scrollController,

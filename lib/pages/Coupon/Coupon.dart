@@ -269,7 +269,7 @@ class _CouponState extends State<Coupon> with SingleTickerProviderStateMixin {
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                    data.firmId==0?Text("平台赠送", style: TextStyle(
+                                    data.firmId==0?Text(data.title, style: TextStyle(
                                         color: isBeOverdue || isUsed? ColorClass.iconColor : ColorClass.fontColor,
                                         fontSize: ScreenAdaper.fontSize(28)
                                     )):Text(data.title != null ? data.title : "", style: TextStyle(

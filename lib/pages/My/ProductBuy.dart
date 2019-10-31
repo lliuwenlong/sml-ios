@@ -50,7 +50,9 @@ class _ProductBuyState extends State<ProductBuy>  {
         setState(() {
             this.isDisabled = true;
         });
-        Map res =  await this.http.post('/api/v12/wxpay/unifiedorder', params: {
+        Map res =  await this.http.post(payType == "Wechat"
+            ? "/api/v12/wxpay/unifiedorder"
+            : "/api/v12/alipay/unifiedorder", params: {
             "renew": {
                 "channel": "Wechat",
                 "platform": Platform.isAndroid ? "Android" : "IOS",
@@ -61,7 +63,8 @@ class _ProductBuyState extends State<ProductBuy>  {
             "goodsType": "renew",
         });
         if (res["code"] == 200) {
-            var data = jsonDecode(res["data"]);
+            if (payType == "Wechat") {
+                var data = jsonDecode(res["data"]);
                 Map<String, String> payInfo = {
                     "appid":"wxa22d7212da062286",
                     "partnerid": data["partnerid"],
@@ -71,18 +74,24 @@ class _ProductBuyState extends State<ProductBuy>  {
                     "timestamp": data["timestamp"],
                     "sign": data["sign"].toString()
                 };
-                try  {
-                    try  {
-                        await wechatPay(payInfo, success: this.success);
-                        setState(() {
-                            this.isDisabled = false;
-                        });
-                    } catch (e) {
-                        print(e);
-                    }
+                try {
+                    await wechatPay(payInfo, success: this.success);
+                    setState(() {
+                        this.isDisabled = false;
+                    });
                 } catch (e) {
-                    print(e);
+                    print('微信' + e);
                 }
+            } else {
+                try {
+                    await tobiasPay(res["data"], success: this.success);
+                    setState(() {
+                        this.isDisabled = false;
+                    });
+                } catch (e) {
+                    print('支付宝' + e);
+                }
+            }
                 
             // await fluwx.pay(appId: "wxa22d7212da062286", 
             //     partnerId: data["partnerid"],
@@ -235,21 +244,21 @@ class _ProductBuyState extends State<ProductBuy>  {
                         ),
                         decoration: BoxDecoration(
                             border: Border(
-                                // bottom: BorderSide(
-                                //     color: ColorClass.borderColor,
-                                //     width: ScreenAdaper.width(1)
-                                // )
+                                bottom: BorderSide(
+                                    color: ColorClass.borderColor,
+                                    width: ScreenAdaper.width(1)
+                                )
                             )
                         ),
                         child: _rowItem("Wechat")
                     ),
-                    // Container(
-                    //     padding: EdgeInsets.only(
-                    //         top: ScreenAdaper.height(30),
-                    //         bottom: ScreenAdaper.height(30)
-                    //     ),
-                    //     child: _rowItem("Alipay")
-                    // ),
+                    Container(
+                        padding: EdgeInsets.only(
+                            top: ScreenAdaper.height(30),
+                            bottom: ScreenAdaper.height(30)
+                        ),
+                        child: _rowItem("Alipay")
+                    ),
                     Container(
                         margin:  EdgeInsets.only(
                             top: ScreenAdaper.height(20),

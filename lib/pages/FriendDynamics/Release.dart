@@ -135,8 +135,8 @@ class _FriendDynamicsReleaseState extends State<FriendDynamicsRelease> {
             "imageUrls": urls.length != 0 ? urls : null,
             "userId": this._userModel.userId
         });
-        if (response["code"] == 200) {
             await Navigator.pop(context);
+        if (response["code"] == 200) {
             await Fluttertoast.showToast(
                 msg: "发布成功，等待审核",
                 toastLength: Toast.LENGTH_SHORT,
@@ -146,6 +146,15 @@ class _FriendDynamicsReleaseState extends State<FriendDynamicsRelease> {
                 fontSize: ScreenAdaper.fontSize(30)
             );
             Navigator.pop(context);
+        } else {
+            await Fluttertoast.showToast(
+                msg: response["msg"],
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.TOP,
+                timeInSecForIos: 1,
+                textColor: Colors.white,
+                fontSize: ScreenAdaper.fontSize(30)
+            );
         }
     }
 

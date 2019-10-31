@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../common/CommonHandler.dart';
+import '../../model/store/user/User.dart';
 import '../../services/ScreenAdaper.dart';
 import '../../components/AppBarWidget.dart';
 import '../../model/api/shop/WoodApiModel.dart';
@@ -11,7 +15,7 @@ import '../../common/HttpUtil.dart';
 import '../../components/LoadingSm.dart';
 import 'package:flutter_inappbrowser/flutter_inappbrowser.dart';
 import '../../common/Config.dart';
-
+import '../../common/HttpUtil.dart';
 class ShenmuDetails extends StatefulWidget {
     final Map arguments;
     ShenmuDetails({Key key, this.arguments}) : super(key: key);
@@ -20,6 +24,7 @@ class ShenmuDetails extends StatefulWidget {
 
 class _ShenmuDetailsState extends State<ShenmuDetails> {
     final Map arguments;
+    HttpUtil http = HttpUtil();
     _ShenmuDetailsState({this.arguments});
     List<Map> bannerList = [
         {
@@ -53,25 +58,80 @@ class _ShenmuDetailsState extends State<ShenmuDetails> {
     BuildContext _selfContext;
 
     _purchase () {
-        Provider.of<ShopModel>(context).setShopNum(1);
-        showModalBottomSheet(
-          context: this._selfContext,
-          shape:  RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(ScreenAdaper.width(10)),
-              topRight: Radius.circular(ScreenAdaper.width(10)),
-            )
-          ),
-          builder: (BuildContext context) {
-            return Purchase(
-                id: this.data.woodId,
-                price: double.parse(this.data.price),
-                baseid: widget.arguments["baseid"],
-                type: widget.arguments["type"])
-            ;
-          }
-        );
+        Provider.of<ShopModel>(context).reset();
+		showModalBottomSheet(
+			context: this._selfContext,
+			shape:  RoundedRectangleBorder(
+				borderRadius: BorderRadius.only(
+					topLeft: Radius.circular(ScreenAdaper.width(10)),
+					topRight: Radius.circular(ScreenAdaper.width(10)),
+				)
+			),
+			builder: (BuildContext context) {
+				return Purchase(
+                    id: this.data.woodId,
+                    price: double.parse(this.data.price),
+                    baseid: widget.arguments["baseid"],
+                    type: widget.arguments["type"],
+                    onPay: (String type, int number, int forestTypes) {
+                        this.onPay(type, number, widget.arguments["baseid"], forestTypes);
+                    }
+                );
+			}
+		);
 	}
+
+    onPay (String type, int number, int id, int forestTypes) async {
+        int userId = Provider.of<User>(context).userId;
+        Map res = await this.http.post(type == "wx"
+            ? "/api/v12/wxpay/unifiedorder"
+            : "/api/v12/alipay/unifiedorder", params: {
+                "wood": {
+                    "channel": "Wechat",
+                    "num": number,
+                    "platform": Platform.isAndroid ? "Android" : "IOS",
+                    "tradeType": "APP",
+                    "userId": userId,
+                    "woodId": widget.arguments["id"],
+                    "districtId": forestTypes
+                },
+                "goodsType": "tree"
+            });
+        print(res);
+        if (res["code"] == 200) {
+            if (type == "wx") {
+                var data = jsonDecode(res["data"]);
+                Map<String, String> payInfo = {
+                    "appid":"wxa22d7212da062286",
+                    "partnerid": data["partnerid"],
+                    "prepayid": data["prepayid"],
+                    "package": "Sign=WXPay",
+                    "noncestr": data["noncestr"],
+                    "timestamp": data["timestamp"],
+                    "sign": data["sign"].toString()
+                };
+                try  {
+                    await wechatPay(payInfo, success: this.nav);
+                    Provider.of<ShopModel>(context).changeIsDisabled(false);
+                } catch (e) {
+                    print('微信' + e);
+                    Provider.of<ShopModel>(context).changeIsDisabled(false);
+                }
+            } else {
+                try {
+                    await tobiasPay(res["data"], success: this.nav);
+                    Provider.of<ShopModel>(context).changeIsDisabled(false);
+                } catch (e) {
+                    print('支付宝' + e);
+                }
+            }
+        }
+    }
+
+    nav () {
+        Navigator.pop(context);
+        Navigator.pushNamed(context, '/order'); 
+    }
 
     @override
     Widget build(BuildContext context) {
