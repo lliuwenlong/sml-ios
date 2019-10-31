@@ -20,8 +20,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import './common/HttpUtil.dart';
 import './components/AppFuncBrowse.dart';
 // import 'package:amap_location/amap_location.dart';
-import 'package:sy_flutter_wechat_183/sy_flutter_wechat_183.dart';
-
+// import 'package:sy_flutter_wechat_183/sy_flutter_wechat_183.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 
 
 void main() {
@@ -75,14 +75,14 @@ class _MyAppState extends State<MyApp>  {
     }
 
     _initFluwx() async {
-        await SyFlutterWechat.register('wxa22d7212da062286');
+        // await SyFlutterWechat.register('wxa22d7212da062286');
         // print(result);
-        // await fluwx.register(
-        //     appId: "wxa22d7212da062286",
-        //     doOnAndroid: true,
-        //     doOnIOS: true,
-        //     enableMTA: false);
-        // await fluwx.isWeChatInstalled();
+        await fluwx.registerWxApi(
+            appId: "wxa22d7212da062286",
+            doOnAndroid: true,
+            doOnIOS: true,
+            universalLink: "https://api.zhongyunkj.cn/");
+        await fluwx.isWeChatInstalled();
     }
 
     getUserId () async {

@@ -37,14 +37,11 @@ class _ProductBuyState extends State<ProductBuy>  {
     @override
     initState () {
         super.initState();
-        // fluwx.responseFromPayment.listen((response){
-        //     setState(() {
-        //         this.isDisabled = false;
-        //     });
-        //     if (response.errCode == 0) {
-        //         Navigator.pushReplacementNamed(context, "/order");
-        //     }
-        // });
+        wechatPayListen(success: this.success, cancel: () {
+            setState(() {
+                this.isDisabled = false;
+            });
+        });
     }
     _payment () async {
         setState(() {

@@ -43,6 +43,11 @@ class _ShenmuDetailsState extends State<ShenmuDetails> {
     void initState() {
         super.initState();
         this._getData();
+        wechatPayListen(success: this.nav, cancel: () {
+            setState(() {
+                Provider.of<ShopModel>(context).changeIsDisabled(false);
+            });
+        });
     }
     void _getData () async {
         final respones = await HttpUtil().get("/api/v1/wood/${arguments["id"]}");

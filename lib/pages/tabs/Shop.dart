@@ -32,12 +32,13 @@ class _ShopPageState extends State<ShopPage> {
     initState() {
         super.initState();
         this._getData(isInit: true);
-        // fluwx.responseFromPayment.listen((response){
-        //     Provider.of<ShopModel>(context).changeIsDisabled(false);
-        //     if (response.errCode == 0) {
-        //         nav();
-        //     }
-        // });
+        if (Platform.isIOS) {
+            wechatPayListen(success: this.nav, cancel: () {
+                setState(() {
+                    Provider.of<ShopModel>(context).changeIsDisabled(false);
+                });
+            });
+        }
     }
 
     nav () {

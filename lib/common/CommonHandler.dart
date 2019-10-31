@@ -1,12 +1,14 @@
+import 'dart:io';
 import 'dart:math';
 
 // import 'package:amap_location/amap_location.dart';
 // import 'package:amap_location/amap_location_option.dart';
 import 'package:sml_ios/components/calendarPage/toast_widget.dart';
 // import 'package:location_permissions/location_permissions.dart';
-import 'package:sy_flutter_wechat_183/sy_flutter_wechat_183.dart';
+// import 'package:sy_flutter_wechat_183/sy_flutter_wechat_183.dart';
 import 'package:tobias/tobias.dart' ;
 import '../components/calendarPage/toast_widget.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 
 getDistance(double lat1, double lng1, double lat2, double lng2) {
     double radLat1 = rad(lat1);
@@ -57,19 +59,50 @@ String getDistanceText (double distance) {
     }
 }
 
+wechatPayListen ({Function success, Function fail, Function cancel, Function error}) {
+    if (Platform.isIOS) {
+        fluwx.responseFromPayment.listen((response){
+            if (response.errCode == 0) {
+                success != null && success();
+            } else {
+                cancel != null && cancel();
+            }
+        });
+    }
+}
+
+
 wechatPay (Map payInfo, {Function success, Function fail, Function cancel, Function error}) async {
-    
     try {
-        SyPayResult payResult = await SyFlutterWechat.pay(SyPayInfo.fromJson(payInfo));
-        if (payResult == SyPayResult.success) {
-            success != null && success();
-        } else if (payResult == SyPayResult.cancel) {
-            cancel != null && cancel();
-        } else if (payResult == SyPayResult.fail) {
-            fail != null && fail();
-        } else {
-            error != null && error();
-        }
+        Map<String, String> payInfoa = {
+            "appid":"wxa22d7212da062286",
+            "partnerid": payInfo["partnerid"],
+            "prepayid": payInfo["prepayid"],
+            "package": "Sign=WXPay",
+            "noncestr": payInfo["noncestr"],
+            "timestamp": payInfo["timestamp"],
+            "sign": payInfo["sign"].toString()
+        };
+                
+        await fluwx.pay(appId: "wxa22d7212da062286", 
+            partnerId: payInfoa["partnerid"],
+            prepayId: payInfoa["prepayid"],
+            packageValue: payInfoa["package"],
+            nonceStr: payInfoa["noncestr"],
+            timeStamp: int.parse(payInfoa["timestamp"]),
+            sign: payInfoa["sign"].toString(),
+            signType: payInfoa["signType"]
+        );
+        // SyPayResult payResult = await SyFlutterWechat.pay(SyPayInfo.fromJson(payInfo));
+        // if (payResult == SyPayResult.success) {
+        //     success != null && success();
+        // } else if (payResult == SyPayResult.cancel) {
+        //     cancel != null && cancel();
+        // } else if (payResult == SyPayResult.fail) {
+        //     fail != null && fail();
+        // } else {
+        //     error != null && error();
+        // }
     }
     catch (e) {
         error != null && error();

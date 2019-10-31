@@ -49,6 +49,7 @@
 		<string>weixinULAPI</string>
 		<string>weixin</string>
 		<string>iosamap</string>
+		<string>alipay</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

@@ -45,16 +45,11 @@ class _PaymentState extends State<Payment> {
         if (this.arguments["type"] == 4 || this.arguments["type"] == "house") {
             this._inputText = this.arguments["amount"];
         }
-        
-        // fluwx.responseFromPayment.listen((response){
-        //     setState(() {
-        //         this.isDisabled = false;
-        //     });
-        //     if (response.errCode == 0) {
-        //         Navigator.pushReplacementNamed(context, "/order");
-        //     } else {
-        //     }
-        // });
+        wechatPayListen(success: this.success, cancel: () {
+            setState(() {
+                this.isDisabled = false;
+            });
+        });
     }
 	@override
 	void didChangeDependencies() {
@@ -156,23 +151,8 @@ class _PaymentState extends State<Payment> {
                 ? "/api/v12/wxpay/unifiedorder"
                 : "/api/v12/alipay/unifiedorder", params: params);
         }
-        print(jsonDecode(res["data"])["orderSn"]);
         
             if (res["code"] == 200) {
-                if (Platform.isIOS) {
-                    setState(() {
-                        this.isDisabled = false;
-                        _countdownTimer = new Timer.periodic(new Duration(seconds: 2), (timer) async {
-                            Map response = await http.post("/api/v1/payinfo/paystate", params: jsonDecode(res["data"])["orderSn"]);
-                            print(response["data"] == "2");
-                            if (response["data"] == "2") {
-                                this.success();
-                                _countdownTimer.cancel();
-                                _countdownTimer = null;
-                            }
-                        });
-                    });
-                }
                 if (this._payType == "Wechat") {
                     var data = jsonDecode(res["data"]);
                     Map<String, String> payInfo = {

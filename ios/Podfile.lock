@@ -12,6 +12,8 @@ PODS:
     - Flutter
   - fluttertoast (0.0.2):
     - Flutter
+  - fluwx (0.0.1):
+    - Flutter
   - image_picker (0.0.1):
     - Flutter
   - keyboard_visibility (0.5.0):
@@ -25,8 +27,6 @@ PODS:
   - Reachability (3.2)
   - shared_preferences (0.0.1):
     - Flutter
-  - sy_flutter_wechat_183 (0.0.1):
-    - Flutter
   - tobias (0.0.1):
     - AlipaySDK-iOS
     - Flutter
@@ -38,12 +38,12 @@ DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
   - flutter_inappbrowser (from `.symlinks/plugins/flutter_inappbrowser/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
+  - fluwx (from `.symlinks/plugins/fluwx/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - keyboard_visibility (from `.symlinks/plugins/keyboard_visibility/ios`)
   - multi_image_picker (from `.symlinks/plugins/multi_image_picker/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
-  - sy_flutter_wechat_183 (from `.symlinks/plugins/sy_flutter_wechat_183/ios`)
   - tobias (from `.symlinks/plugins/tobias/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
@@ -65,6 +65,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_inappbrowser/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
+  fluwx:
+    :path: ".symlinks/plugins/fluwx/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
   keyboard_visibility:
@@ -75,8 +77,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
-  sy_flutter_wechat_183:
-    :path: ".symlinks/plugins/sy_flutter_wechat_183/ios"
   tobias:
     :path: ".symlinks/plugins/tobias/ios"
   url_launcher:
@@ -91,13 +91,13 @@ SPEC CHECKSUMS:
   Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
   flutter_inappbrowser: 93214ba3c0bc9db42e879f808d993b6d3be32379
   fluttertoast: b644586ef3b16f67fae9a1f8754cef6b2d6b634b
+  fluwx: 765c6052398eaf6fe13c73409488b0d0b9d00fd6
   image_picker: e3eacd46b94694dde7cf2705955cece853aa1a8f
   keyboard_visibility: 96a24de806fe6823c3ad956c01ba2ec6d056616f
   multi_image_picker: 68d86c3e3616a64096cb5ef46de9a8195930a3e4
   path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
-  sy_flutter_wechat_183: e8d4b1c49b31f87d59cf76700ccb16dbb11cf778
   tobias: 2b26899721bed6d95bbda83725b7ffe4a98ba446
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
 
