@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../model/store/shop/Shop.dart';
@@ -10,6 +13,7 @@ import './PurchaseAgreement.dart';
 import 'dart:ui';
 
 typedef void OnPay(String type, int number, int regionId);
+typedef void SizeChange(double height);
 
 class Purchase extends StatefulWidget {
     int id;
@@ -17,7 +21,9 @@ class Purchase extends StatefulWidget {
     int baseid;
     String type;
     OnPay onPay;
-    Purchase({Key key, this.id, this.price, this.baseid, this.type, this.onPay});
+    BuildContext selfContext;
+    SizeChange sizeChange;
+    Purchase({Key key, this.id, this.price, this.baseid, this.type, this.onPay, this.sizeChange});
     _PurchaseState createState() => _PurchaseState(
         id: this.id, price: this.price,
         baseid: this.baseid, type: this.type
@@ -37,6 +43,10 @@ class _PurchaseState extends State<Purchase>  {
     bool isPay = false;
     String payType = "wx";
     bool isDisabled = false;
+    Timer _countdownTimer;
+    double width;
+    double height;
+
     @override
     void didChangeDependencies() {
         super.didChangeDependencies();
@@ -47,7 +57,35 @@ class _PurchaseState extends State<Purchase>  {
     initState () {
         super.initState();
         this._getData();
+        if (Platform.isIOS) {
+            this.periodic();
+        }
     }
+
+    @override
+    dispose() {
+        super.dispose();
+        if (_countdownTimer != null) {
+            _countdownTimer.cancel();            
+        }
+    }
+
+    periodic () {
+        setState(() {
+            _countdownTimer = new Timer.periodic(new Duration(seconds: 1), (timer) {
+                try {
+                    if (context.size.width != width || context.size.height != height) {
+                        width = context.size.width;
+                        height = context.size.height;
+                        Provider.of<ShopModel>(context).setHeight(height);
+                    }
+                }
+                catch (e) {}
+            });
+        });
+        
+    }
+    
     _getData () async {
         final response = await HttpUtil().get("/api/v1/wood/${this.type != null ? this.baseid : this.id}/dists");
         if (response["code"] == 200) {
@@ -459,38 +497,45 @@ class _PurchaseState extends State<Purchase>  {
     Widget build(BuildContext context) {
         ScreenAdaper.init(context);
         this._selfContext = context;
-        return Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQueryData.fromWindow(window).padding.bottom
-            ),
-            child: Container(
-                width: double.infinity,
-                child: Consumer<ShopModel>(
-                    builder: (BuildContext context, ShopModel shopModel, child) {
-                        this.cloneShopModel = shopModel;
-                        return !isPay ? Wrap(
-                            children: <Widget>[
-                                _header("购买数量"),
-                                _purchaseQuantity(shopModel),
-                                _button(
-                                    onTap: () {
-                                        setState(() {
-                                            isPay = true;
-                                        });
-                                    }
-                                )
-                            ]
-                        )
-                        :  Wrap(
-                            children: <Widget>[
-                                _header("确认支付"),
-                                _paymentType(),
-                                _button(shopModel: shopModel, onTap: () {
-                                    _onPay(shopModel);
-                                })
-                            ]
-                        );
-                    },
+        widget.selfContext = context;
+        return NotificationListener<LayoutChangedNotification>(
+            onNotification: (notification) {
+                print(123123);
+                return null;
+            },
+            child: Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQueryData.fromWindow(window).padding.bottom
+                ),
+                child: Container(
+                    width: double.infinity,
+                    child: Consumer<ShopModel>(
+                        builder: (BuildContext context, ShopModel shopModel, child) {
+                            this.cloneShopModel = shopModel;
+                            return !isPay ? Wrap(
+                                children: <Widget>[
+                                    _header("购买数量"),
+                                    _purchaseQuantity(shopModel),
+                                    _button(
+                                        onTap: () {
+                                            setState(() {
+                                                isPay = true;
+                                            });
+                                        }
+                                    )
+                                ]
+                            )
+                            :  Wrap(
+                                children: <Widget>[
+                                    _header("确认支付"),
+                                    _paymentType(),
+                                    _button(shopModel: shopModel, onTap: () {
+                                        _onPay(shopModel);
+                                    })
+                                ]
+                            );
+                        },
+                    )
                 )
             )
         );

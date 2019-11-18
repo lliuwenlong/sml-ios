@@ -65,12 +65,13 @@ class _FriendDynamicsPageState extends State<FriendDynamicsPage> with SingleTick
     _thumbsUp (int id, int isThumbup, int index) async {
         Map response = await this.http.post("/api/v1/circle/msg/$id/thumbup?type=${isThumbup == 0 ? 1 : 0}&userId=${this._userModel.userId}");
         if (response["code"] == 200) {
+            print(response);
             if (_tabController.index == 0) {
                 this._circleMsgList[index].isThumbup = isThumbup == 0 ? 1 : 0;
                 if (isThumbup == 0) {
-                    this._circleMsgList[index].thumbup++;
+                    this._circleMsgList[index].thumbup = response["data"]["thumbup"];
                 } else {
-                    this._circleMsgList[index].thumbup--;
+                    this._circleMsgList[index].thumbup = response["data"]["thumbup"];
                 }
                 setState(() {
                     this._circleMsgList = this._circleMsgList;
@@ -78,9 +79,9 @@ class _FriendDynamicsPageState extends State<FriendDynamicsPage> with SingleTick
             } else {
                 this._friendDynamicsMsgList[index].isThumbup = isThumbup == 0 ? 1 : 0;
                 if (isThumbup == 0) {
-                    this._friendDynamicsMsgList[index].thumbup++;
+                    this._friendDynamicsMsgList[index].thumbup = response["data"]["thumbup"];
                 } else {
-                    this._friendDynamicsMsgList[index].thumbup--;
+                    this._friendDynamicsMsgList[index].thumbup = response["data"]["thumbup"];
                 }
                 setState(() {
                     this._friendDynamicsMsgList = this._friendDynamicsMsgList;

@@ -104,8 +104,11 @@ class _TripState extends State<Trip> {
                     )
                 ),
                 body: SafeArea(
-                  bottom: true,
+                //   bottom: true,
                   child: Container(
+                    padding: EdgeInsets.only(
+                        bottom: ScreenAdaper.height(108) + MediaQueryData.fromWindow(window).padding.bottom + ScreenAdaper.height(10)
+                    ),
                     child: InAppWebView(
                         initialUrl: '${Config.WEB_URL}/app/#/trip',
                         onWebViewCreated: (InAppWebViewController controller) {

@@ -652,6 +652,7 @@ class _RestaurantDetailsState extends State<RestaurantDetails> with SingleTicker
                         Navigator.pushNamed(context, "/releaseEvaluate", arguments: {
                             "firmId": this.firm.firmId,
                             "name": this.firm.name,
+                            "logo": this.firm.logo
                         });
                     },
                     child: Container(

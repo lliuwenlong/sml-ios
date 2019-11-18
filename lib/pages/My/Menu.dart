@@ -10,6 +10,7 @@ class Menu extends StatelessWidget {
             onTap: () {
                 if (name == "我的钱包") {
                     ShowToast().showToast("敬请期待");
+                    return;
                 }
                 Navigator.pushNamed(context, routeName);
             },

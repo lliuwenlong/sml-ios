@@ -26,6 +26,8 @@ class _ShenmuDetailsState extends State<ShenmuDetails> {
     final Map arguments;
     HttpUtil http = HttpUtil();
     _ShenmuDetailsState({this.arguments});
+    GlobalKey _globalKey = GlobalKey();
+    double height = 0;
     List<Map> bannerList = [
         {
         "url": 'http://img.pconline.com.cn/images/upload/upc/tx/photoblog/1411/14/c2/40920783_40920783_1415949861822_mthumb.jpg'
@@ -65,7 +67,7 @@ class _ShenmuDetailsState extends State<ShenmuDetails> {
     _purchase () {
         Provider.of<ShopModel>(context).reset();
 		showModalBottomSheet(
-			context: this._selfContext,
+			context: context,
 			shape:  RoundedRectangleBorder(
 				borderRadius: BorderRadius.only(
 					topLeft: Radius.circular(ScreenAdaper.width(10)),
@@ -83,7 +85,9 @@ class _ShenmuDetailsState extends State<ShenmuDetails> {
                     }
                 );
 			}
-		);
+		).then((a) {
+            Provider.of<ShopModel>(context).setHeight(0);
+        });
 	}
 
     onPay (String type, int number, int id, int forestTypes) async {
@@ -141,6 +145,7 @@ class _ShenmuDetailsState extends State<ShenmuDetails> {
     @override
     Widget build(BuildContext context) {
         ScreenAdaper.init(context);
+        print(Provider.of<ShopModel>(context).height);
         this._selfContext = context;
         return Scaffold(
             appBar: AppBarWidget().buildAppBar('神木详情'),
@@ -180,14 +185,16 @@ class _ShenmuDetailsState extends State<ShenmuDetails> {
                     },
                 )
             ),
-            body: ConstrainedBox(
-            constraints: BoxConstraints.expand(),
-            child: isLoading ? Loading() : Container(
-                    height: 300,
-                    child: InAppWebView(
-                        initialUrl: "${Config.WEB_URL}/app/#/shopTreeDetail?sid=${arguments['id']}",
-                    )
+            body: isLoading ? Loading() : Container(
+                padding: EdgeInsets.only(
+                    bottom: Platform.isIOS
+                        ? Provider.of<ShopModel>(context).height
+                        : 0
+                ),
+                child: InAppWebView(
+                    initialUrl: "${Config.WEB_URL}/app/#/shopTreeDetail?sid=${arguments['id']}",
                 )
-            ));
+            )
+        );
     }
 }

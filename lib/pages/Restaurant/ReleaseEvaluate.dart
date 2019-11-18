@@ -42,14 +42,14 @@ class _ReleaseEvaluateState extends State<ReleaseEvaluate> {
         List<String> formDataArr = [];
         await Future.wait(resultList.map((item) async {
             String path = await item.filePath;
-            String name = path.substring(path.lastIndexOf("/") + 1, path.length);
-            CompressObject compressObject = CompressObject(
-                imageFile: File(path), //image
-                path:'/storage/emulated/0/Android/data/com.itshouyu.sml/files/Pictures', //compress to path
-            );
-            String _path = await Luban.compressImage(compressObject);
-            formDataArr.add(_path);
-            return _path;
+            // String name = path.substring(path.lastIndexOf("/") + 1, path.length);
+            // CompressObject compressObject = CompressObject(
+            //     imageFile: File(path), //image
+            //     path:'/storage/emulated/0/Android/data/com.itshouyu.sml/files/Pictures', //compress to path
+            // );
+            // String _path = await Luban.compressImage(compressObject);
+            formDataArr.add(path);
+            return path;
         }).toList());
         var response = await dio.post("${Config.apiUrl}/oss/imgs", data: FormData.from({
             "images": formDataArr.map((item) {
