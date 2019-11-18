@@ -5,7 +5,7 @@ import 'dart:math';
 // import 'package:amap_location/amap_location_option.dart';
 import 'package:sml_ios/components/calendarPage/toast_widget.dart';
 // import 'package:location_permissions/location_permissions.dart';
-// import 'package:sy_flutter_wechat_183/sy_flutter_wechat_183.dart';
+// import 'package:sy_flutter_wechat/sy_flutter_wechat.dart';
 import 'package:tobias/tobias.dart' ;
 import '../components/calendarPage/toast_widget.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;

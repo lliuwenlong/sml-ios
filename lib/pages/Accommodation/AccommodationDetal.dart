@@ -759,6 +759,7 @@ class _AccommodationDetalState extends State<AccommodationDetal> with SingleTick
                         Navigator.pushNamed(context, "/releaseEvaluate", arguments: {
                             "firmId": this.firm.firmId,
                             "name": this.firm.name,
+                            "logo": this.firm.logo
                         });
                     },
                     child: Container(

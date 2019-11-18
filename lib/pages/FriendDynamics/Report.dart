@@ -50,7 +50,7 @@ class _FriendDynamicsReportState extends State<FriendDynamicsReport> {
         }
         final Map response = await HttpUtil().post("/api/v1/circle/msg/${this.widget.arguments["id"]}/report/", data: {
             "userId": this._userModel.userId,
-            "reason": this._list[this._listIndex]["name"]
+            "reason": this._list[this._listIndex]
         });
         if (response["code"] == 200) {
             Navigator.pop(context);

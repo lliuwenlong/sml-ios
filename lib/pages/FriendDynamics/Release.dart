@@ -74,13 +74,13 @@ class _FriendDynamicsReleaseState extends State<FriendDynamicsRelease> {
         await Future.wait(resultList.map((item) async {
             String path = await item.filePath;
             String name = path.substring(path.lastIndexOf("/") + 1, path.length);
-            CompressObject compressObject = CompressObject(
-                imageFile: File(path), //image
-                path:'/storage/emulated/0/Android/data/com.itshouyu.sml/files/Pictures', //compress to path
-            );
-            String _path = await Luban.compressImage(compressObject);
-            formDataArr.add(_path);
-            return _path;
+            // CompressObject compressObject = CompressObject(
+            //     imageFile: File(path), //image
+            //     path:'/storage/emulated/0/Android/data/com.itshouyu.sml/files/Pictures', //compress to path
+            // );
+            // String _path = await Luban.compressImage(compressObject);
+            formDataArr.add(path);
+            return path;
         }).toList());
         var response = await dio.post("${Config.apiUrl}/oss/imgs", data: FormData.from({
             "images": formDataArr.map((item) {
@@ -135,7 +135,7 @@ class _FriendDynamicsReleaseState extends State<FriendDynamicsRelease> {
             "imageUrls": urls.length != 0 ? urls : null,
             "userId": this._userModel.userId
         });
-            await Navigator.pop(context);
+        await Navigator.pop(context);
         if (response["code"] == 200) {
             await Fluttertoast.showToast(
                 msg: "发布成功，等待审核",

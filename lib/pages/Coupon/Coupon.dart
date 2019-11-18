@@ -187,7 +187,11 @@ class _CouponState extends State<Coupon> with SingleTickerProviderStateMixin {
                                         child: ClipRRect(
                                             borderRadius: BorderRadius.circular(5),
                                             child: data.firmId == 0 || data.firmId == null
-                                                ? icon[data.type]
+                                                // ? icon[data.type]
+                                                ? Image.network(
+                                                    data.coverImage != null ? data.coverImage : "",
+                                                    fit: BoxFit.cover,
+                                                )
                                                 : Image.network(
                                                     data.coverImage != null ? data.coverImage : "",
                                                     fit: BoxFit.cover,
@@ -269,13 +273,17 @@ class _CouponState extends State<Coupon> with SingleTickerProviderStateMixin {
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                    data.firmId==0?Text(data.title, style: TextStyle(
-                                        color: isBeOverdue || isUsed? ColorClass.iconColor : ColorClass.fontColor,
-                                        fontSize: ScreenAdaper.fontSize(28)
-                                    )):Text(data.title != null ? data.title : "", style: TextStyle(
-                                        color: isBeOverdue ? ColorClass.iconColor : ColorClass.fontColor,
-                                        fontSize: ScreenAdaper.fontSize(28)
-                                    )),
+                                    Expanded(
+                                        flex: 1,
+                                        child: data.firmId==0?Text(data.title != null ? data.title : "", style: TextStyle(
+                                            color: isBeOverdue || isUsed? ColorClass.iconColor : ColorClass.fontColor,
+                                            fontSize: ScreenAdaper.fontSize(28)
+                                        ), overflow: TextOverflow.ellipsis):Text(data.title != null ? data.title : "", style: TextStyle(
+                                            color: isBeOverdue || isUsed ? ColorClass.iconColor : ColorClass.fontColor,
+                                            fontSize: ScreenAdaper.fontSize(28)
+                                        ), overflow: TextOverflow.ellipsis),
+                                    ),
+                                    SizedBox(width: 20),
                                     isBeOverdue
                                         ? Container(
                                             width: ScreenAdaper.height(128),

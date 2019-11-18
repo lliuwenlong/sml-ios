@@ -33,13 +33,14 @@ class CommentData {
     String nickName;
     String content;
     String createTime;
-
+    String headerImage;
     CommentData({this.nickName, this.content, this.createTime});
 
     CommentData.fromJson(Map<String, dynamic> json) {
         nickName = json['nickName'];
         content = json['content'];
         createTime = json['createTime'];
+        headerImage = json['headerImage'];
     }
 
     Map<String, dynamic> toJson() {
@@ -47,6 +48,7 @@ class CommentData {
         data['nickName'] = this.nickName;
         data['content'] = this.content;
         data['createTime'] = this.createTime;
+        data['headerImage'] = this.headerImage;
         return data;
     }
 }

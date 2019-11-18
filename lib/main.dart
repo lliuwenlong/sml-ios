@@ -20,7 +20,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import './common/HttpUtil.dart';
 import './components/AppFuncBrowse.dart';
 // import 'package:amap_location/amap_location.dart';
-// import 'package:sy_flutter_wechat_183/sy_flutter_wechat_183.dart';
+// import 'package:sy_flutter_wechat/sy_flutter_wechat.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
 
 
